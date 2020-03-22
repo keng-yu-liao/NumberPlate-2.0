@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">NumberPlate-1.0</string>
+    <string name="app_name">免排隊APP</string>
+    <string name="app_title">叫號APP登入</string>
+    <string name="login">登入</string>
+    <string name="enter_account">請輸入帳號</string>
+    <string name="enter_password">請輸入密碼</string>
+
 </resources>
