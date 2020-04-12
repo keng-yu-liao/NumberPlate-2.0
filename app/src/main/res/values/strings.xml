@@ -4,5 +4,6 @@
     <string name="login">登入</string>
     <string name="enter_account">請輸入帳號</string>
     <string name="enter_password">請輸入密碼</string>
+    <string name="login_loging">登入中..</string>
 
 </resources>

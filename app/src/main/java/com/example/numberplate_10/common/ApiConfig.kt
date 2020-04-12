@@ -1,4 +1,4 @@
-package com.example.numberplate_10.config
+package com.example.numberplate_10.common
 
 object ApiConfig {
     const val LOG_TAG = "LIAO"
