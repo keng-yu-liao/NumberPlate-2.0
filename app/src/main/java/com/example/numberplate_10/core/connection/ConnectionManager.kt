@@ -2,6 +2,7 @@ package com.example.numberplate_10.core.connection
 
 import com.example.numberplate_10.common.ApiConfig
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -29,7 +30,15 @@ class ConnectionManager {
             return OkHttpClient.Builder()
                     .connectTimeout(ApiConfig.API.TIMEOUT_CONNECT, TimeUnit.SECONDS)
                     .readTimeout(ApiConfig.API.TIMEOUT_READ, TimeUnit.SECONDS)
+                    .addInterceptor(createLoggingInterceptor())
                     .build()
+        }
+
+        private fun createLoggingInterceptor(): HttpLoggingInterceptor {
+            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+            return httpLoggingInterceptor
         }
     }
 }

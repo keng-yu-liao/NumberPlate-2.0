@@ -1,11 +1,13 @@
 package com.example.numberplate_10.ui.base
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.numberplate_10.R
 
+@SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
     protected lateinit var progressAlertDialog: AlertDialog
 
