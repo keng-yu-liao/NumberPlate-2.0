@@ -1,12 +1,15 @@
 package com.example.numberplate_10.ui.section.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.example.numberplate_10.R
+import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
 import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.LoginRq
 import com.example.numberplate_10.data.httpObj.LoginRs
 import com.example.numberplate_10.ui.base.BaseActivity
+import com.example.numberplate_10.ui.section.choose.ChooseActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Response
@@ -50,6 +53,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener{
     }
 
     private fun login(loginRs: LoginRs) {
+        if(STATUS_SUCCESS.equals(loginRs.status)) {
+            val intent = Intent(this, ChooseActivity::class.java)
+            startActivity(intent)
+            finish()
+
+        } else {
+            showFailureMsg(getString(R.string.login_fail))
+
+        }
 
     }
 
