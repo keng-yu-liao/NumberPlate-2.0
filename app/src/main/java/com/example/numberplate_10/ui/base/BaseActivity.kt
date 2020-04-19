@@ -24,4 +24,11 @@ open class BaseActivity : AppCompatActivity() {
             progressAlertDialog.dismiss()
         }
     }
+
+    protected fun showFailureMsg(msg: String) {
+        var errorDialog = AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.dialog_error_title))
+                            .setMessage(msg)
+                            .show()
+    }
 }

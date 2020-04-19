@@ -30,6 +30,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener{
                 ConnectionManager.getInstance().login(loginRq.accountName, loginRq.accountPassword).enqueue(object : Callback<LoginRs> {
                     override fun onFailure(call: Call<LoginRs>, t: Throwable) {
                         cancelLoading()
+                        t.message?.let { showFailureMsg(it) }
                     }
 
                     override fun onResponse(call: Call<LoginRs>, response: Response<LoginRs>) {
@@ -51,4 +52,5 @@ class LoginActivity : BaseActivity(), View.OnClickListener{
     private fun login(loginRs: LoginRs) {
 
     }
+
 }
