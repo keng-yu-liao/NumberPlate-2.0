@@ -2,6 +2,9 @@
     <string name="app_name">免排隊APP</string>
     <string name="app_title">叫號APP登入</string>
 
+    //通用類
+    <string name="all_loading">讀取中，請稍後</string>
+
     //登入頁
     <string name="login">登入</string>
     <string name="enter_account">請輸入帳號</string>
@@ -12,6 +15,7 @@
     //選擇頁
     <string name="choose_remote_control">叫號器</string>
     <string name="choose_calling_pad">號碼顯示器</string>
+    <string name="choose_remote_first_hint">請先點選叫號器以初始化</string>
 
     //其他字串
     <string name="dialog_error_title">錯誤訊息</string>

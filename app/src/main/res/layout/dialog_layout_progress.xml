@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="1.2"
         android:gravity="center"
-        android:text="讀取中，請稍後..."
+        android:text="@string/all_loading"
         android:textColor="@color/colorGray"
         android:textSize="@dimen/text_size_huge" />
 

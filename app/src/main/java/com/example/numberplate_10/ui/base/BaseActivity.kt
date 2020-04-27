@@ -11,9 +11,14 @@ import com.example.numberplate_10.R
 open class BaseActivity : AppCompatActivity() {
     protected lateinit var progressAlertDialog: AlertDialog
 
+    protected fun showLoading() {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_layout_progress, null)
+        progressAlertDialog = AlertDialog.Builder(this).setView(view).show()
+    }
+
     protected fun showLoading(msg: String) {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_layout_progress, null)
-        view.findViewById<TextView>(R.id.progress_dialog_title).setText(msg)
+        view.findViewById<TextView>(R.id.progress_dialog_title).text = msg
 
         progressAlertDialog = AlertDialog.Builder(this).setView(view).show()
 
@@ -26,9 +31,10 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     protected fun showFailureMsg(msg: String) {
-        var errorDialog = AlertDialog.Builder(this)
+        val errorDialog = AlertDialog.Builder(this)
                             .setTitle(getString(R.string.dialog_error_title))
                             .setMessage(msg)
-                            .show()
+                            .create()
+        errorDialog.show()
     }
 }
