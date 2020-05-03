@@ -17,6 +17,10 @@
     <string name="choose_calling_pad">號碼顯示器</string>
     <string name="choose_remote_first_hint">請先點選叫號器以初始化</string>
 
+    //遙控叫號頁
+    <string name="remote_call_no_number">尚未有等待號碼</string>
+    <string name="remote_call_reset">號碼歸零</string>
+
     //其他字串
     <string name="dialog_error_title">錯誤訊息</string>
 
