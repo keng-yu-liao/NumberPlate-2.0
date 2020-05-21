@@ -21,6 +21,6 @@ object ApiConfig {
         //API名稱
         const val LOGIN: String = "Login.php"
         const val GET_STARTING_STATUS: String = "GetStartingStatus.php"
-        const val CALL_SOCKET_CONNECT: String = "CallSocketConnect.php"
+        const val SOCKET_CONNECT: String = "SocketConnect.php"
     }
 }

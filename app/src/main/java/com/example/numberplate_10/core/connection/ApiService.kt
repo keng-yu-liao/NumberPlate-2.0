@@ -20,7 +20,7 @@ interface ApiService {
         @Query("accountName") accountName: String
     ): Call<GetStartingStatusRs>
 
-    @GET(ApiConfig.API.CALL_SOCKET_CONNECT)
+    @GET(ApiConfig.API.SOCKET_CONNECT)
     fun socketConnect (
         @Query("socketName") socketName: String,
         @Query("portNum") portNum: String
