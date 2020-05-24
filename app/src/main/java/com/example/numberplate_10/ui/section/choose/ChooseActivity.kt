@@ -4,11 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.example.numberplate_10.R
-import com.example.numberplate_10.common.ConnectionCode.STATUS_UNINITIAL
+import com.example.numberplate_10.common.ApiConfig.API.STORE_TABLE
+import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
+import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_UNCALLED
 import com.example.numberplate_10.common.TransDataCode.ACCOUNT_NAME
 import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.GetStartingStatusRq
 import com.example.numberplate_10.data.httpObj.GetStartingStatusRs
+import com.example.numberplate_10.data.httpObj.InitRq
+import com.example.numberplate_10.data.httpObj.InitRs
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.ui.section.remoteCall.RemoteCallActivity
 import com.example.numberplate_10.utils.DialogUtil
@@ -36,6 +40,9 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
         tv_choose_remote.setOnClickListener(this)
         img_choose_calling_pad.setOnClickListener(this)
         tv_choose_calling_pad.setOnClickListener(this)
+
+        showLoading(getString(R.string.choose_init_process))
+        sendInit(STORE_TABLE, strAccountName)
     }
 
     override fun onClick(view: View?) {
@@ -54,6 +61,31 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
 
             }
         }
+    }
+
+    private fun sendInit(tablename: String, accountName: String) {
+        val initRq = InitRq(tablename, accountName)
+        ConnectionManager.getInstance().init(initRq.tableName, initRq.accountName).enqueue(object : Callback<InitRs> {
+            override fun onFailure(call: Call<InitRs>, t: Throwable) {
+                cancelLoading()
+                t.message?.let { showFailureMsg(it) }
+            }
+
+            override fun onResponse(call: Call<InitRs>, response: Response<InitRs>) {
+                cancelLoading()
+                response.body()?.run {
+                    if (STATUS_SUCCESS.equals(this.status)) {
+                        DialogUtil.showDialog(this@ChooseActivity, getString(R.string.choose_init_success))
+
+                    } else {
+                        DialogUtil.showDialog(this@ChooseActivity, getString(R.string.choose_init_fail))
+
+                    }
+                }
+            }
+
+        })
+
     }
 
     private fun sendGetStartingStatus(accountName: String) {
@@ -78,7 +110,7 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun checkStartingStatus(getStartingStatusRs: GetStartingStatusRs) {
-        if (STATUS_UNINITIAL.equals(getStartingStatusRs.status)) {
+        if (STATUS_REMOTE_UNCALLED.equals(getStartingStatusRs.status)) {
             resetBtn()
             cancelLoading()
             DialogUtil.showDialog(this, getString(R.string.choose_remote_first_hint))

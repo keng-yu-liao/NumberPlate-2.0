@@ -17,6 +17,9 @@
     //選擇頁
     <string name="choose_remote_control">叫號器</string>
     <string name="choose_calling_pad">號碼顯示器</string>
+    <string name="choose_init_process">初始化資料…</string>
+    <string name="choose_init_success">初始化成功</string>
+    <string name="choose_init_fail">初始化失敗</string>
     <string name="choose_remote_first_hint">請先點選叫號器以初始化</string>
 
     //遙控叫號頁

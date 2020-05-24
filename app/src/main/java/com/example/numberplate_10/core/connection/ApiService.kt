@@ -2,6 +2,7 @@ package com.example.numberplate_10.core.connection
 
 import com.example.numberplate_10.common.ApiConfig
 import com.example.numberplate_10.data.httpObj.GetStartingStatusRs
+import com.example.numberplate_10.data.httpObj.InitRs
 import com.example.numberplate_10.data.httpObj.LoginRs
 import com.example.numberplate_10.data.httpObj.SocketConnectRs
 import retrofit2.Call
@@ -14,6 +15,12 @@ interface ApiService {
         @Query("accountName") accountName: String,
         @Query("accountPassword") accountPassword: String
     ): Call<LoginRs>
+
+    @GET(ApiConfig.API.INIT)
+    fun init(
+        @Query("tableName") tableName: String,
+        @Query("accountName") accountName: String
+    ): Call<InitRs>
 
     @GET(ApiConfig.API.GET_STARTING_STATUS)
     fun getStartingStatus (

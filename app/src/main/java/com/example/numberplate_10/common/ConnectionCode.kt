@@ -5,8 +5,8 @@ object ConnectionCode {
     const val STATUS_FAIL = "9999"
 
     //初始狀態碼
-    const val STATUS_UNINITIAL = "0001"
-    const val STATUS_INITED = "0002"
+    const val STATUS_REMOTE_UNCALLED = "0001"
+    const val STATUS_REMOTE_CALLED = "0002"
 
     //Socket 連接狀態碼
     const val SOCKET_CONNECTED = "S0000"
