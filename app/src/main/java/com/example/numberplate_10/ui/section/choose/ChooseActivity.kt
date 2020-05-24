@@ -1,5 +1,6 @@
 package com.example.numberplate_10.ui.section.choose
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.example.numberplate_10.R
@@ -9,13 +10,14 @@ import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.GetStartingStatusRq
 import com.example.numberplate_10.data.httpObj.GetStartingStatusRs
 import com.example.numberplate_10.ui.base.BaseActivity
+import com.example.numberplate_10.ui.section.remoteCall.RemoteCallActivity
 import com.example.numberplate_10.utils.DialogUtil
 import kotlinx.android.synthetic.main.activity_choose.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ChooseActivity : BaseActivity(), View.OnClickListener{
+class ChooseActivity : BaseActivity(), View.OnClickListener {
     lateinit var strAccountName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,11 +39,19 @@ class ChooseActivity : BaseActivity(), View.OnClickListener{
     }
 
     override fun onClick(view: View?) {
-        when(view?.id) {
+        when (view?.id) {
+            R.id.img_choose_remote, R.id.tv_choose_remote -> {
+                lockBtn()
+                showLoading()
+                gotoRemoteCall()
+
+            }
+
             R.id.img_choose_calling_pad, R.id.tv_choose_calling_pad -> {
                 lockBtn()
                 showLoading()
                 sendGetStartingStatus(strAccountName)
+
             }
         }
     }
@@ -68,13 +78,22 @@ class ChooseActivity : BaseActivity(), View.OnClickListener{
     }
 
     private fun checkStartingStatus(getStartingStatusRs: GetStartingStatusRs) {
-        if(STATUS_UNINITIAL.equals(getStartingStatusRs.status)) {
+        if (STATUS_UNINITIAL.equals(getStartingStatusRs.status)) {
+            resetBtn()
+            cancelLoading()
             DialogUtil.showDialog(this, getString(R.string.choose_remote_first_hint))
 
         } else {
-
+            val intent = Intent(this, RemoteCallActivity::class.java)
+            startActivity(intent)
 
         }
+    }
+
+    private fun gotoRemoteCall() {
+        val intent = Intent(this, RemoteCallActivity::class.java)
+        startActivity(intent)
+
     }
 
     private fun lockBtn() {
