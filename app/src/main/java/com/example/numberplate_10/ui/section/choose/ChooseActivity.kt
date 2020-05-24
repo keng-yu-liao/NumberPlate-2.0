@@ -42,8 +42,8 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
         when (view?.id) {
             R.id.img_choose_remote, R.id.tv_choose_remote -> {
                 lockBtn()
-                showLoading()
                 gotoRemoteCall()
+                finish()
 
             }
 

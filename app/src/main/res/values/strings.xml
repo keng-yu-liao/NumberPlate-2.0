@@ -4,6 +4,8 @@
 
     //通用類
     <string name="all_loading">讀取中，請稍後</string>
+    <string name="all_close_app">確定要離開免排隊APP ?</string>
+    <string name="all_yes">OK</string>
 
     //登入頁
     <string name="login">登入</string>

@@ -1,15 +1,29 @@
 package com.example.numberplate_10.ui.base
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.numberplate_10.R
+import com.example.numberplate_10.utils.DialogUtil
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
     protected lateinit var progressAlertDialog: AlertDialog
+
+    override fun onBackPressed() {
+        DialogUtil.showDialogWithPosListener(
+                this,
+                getString(R.string.all_close_app),
+                object : DialogInterface.OnClickListener{
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        finishAffinity()
+                    }
+                }
+        )
+    }
 
     protected fun showLoading() {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_layout_progress, null)
