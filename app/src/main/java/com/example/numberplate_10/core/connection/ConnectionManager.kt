@@ -1,8 +1,15 @@
 package com.example.numberplate_10.core.connection
 
 import com.example.numberplate_10.common.ApiConfig
+import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
+import com.example.numberplate_10.data.httpObj.InitRq
+import com.example.numberplate_10.data.httpObj.InitRs
+import com.example.numberplate_10.data.httpObj.Response
+import com.example.numberplate_10.data.httpObj.UpdateStartingStatusRq
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -13,6 +20,8 @@ class ConnectionManager {
         private var apiService: ApiService? = null
 
         @Synchronized
+
+
         fun getInstance(): ApiService {
             return apiService ?: build()
         }
@@ -39,6 +48,53 @@ class ConnectionManager {
             httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
             return httpLoggingInterceptor
+        }
+
+        fun sendInit(initRq: InitRq, connectionListener: ConnectionListener<InitRs>) {
+            getInstance().init(initRq.tableName, initRq.accountName).enqueue(object : Callback<Response> {
+                override fun onFailure(call: Call<Response>, t: Throwable) {
+                    t.message?.let {
+                        connectionListener.onFail(it)
+
+                    }
+                }
+
+                override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                    response.body()?.run {
+                        if (STATUS_SUCCESS == (this.status)) {
+                            val initRs = InitRs(this.data)
+                            connectionListener.onSuccess(initRs)
+
+                        } else {
+                            connectionListener.onFail(this.data)
+
+                        }
+                    }
+                }
+            })
+        }
+
+        fun sendUpdateStartingStatus(updateStartingStatusRq: UpdateStartingStatusRq, connectionListener: ConnectionListener<String>) {
+            getInstance().updateStartingStatus(updateStartingStatusRq.accountName, updateStartingStatusRq.updateStatus).enqueue(object : Callback<Response> {
+                override fun onFailure(call: Call<Response>, t: Throwable) {
+                    t.message?.let {
+                        connectionListener.onFail(it)
+
+                    }
+                }
+
+                override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                    response.body()?.run {
+                        if (STATUS_SUCCESS == (this.status)) {
+                            connectionListener.onSuccess("")
+
+                        } else {
+                            connectionListener.onFail("")
+
+                        }
+                    }
+                }
+            })
         }
     }
 }

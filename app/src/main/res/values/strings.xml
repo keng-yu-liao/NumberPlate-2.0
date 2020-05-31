@@ -29,6 +29,8 @@
     <string name="remote_call_socket_connect_fail">Socket連接失敗</string>
     <string name="remote_call_connect_success">連線成功</string>
     <string name="remote_call_connect_fail">連線失敗</string>
+    <string name="remote_call_update_status_success">更新狀態成功</string>
+    <string name="remote_call_update_status_fail">更新狀態失敗</string>
 
     //其他字串
     <string name="dialog_error_title">錯誤訊息</string>

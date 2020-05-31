@@ -7,12 +7,16 @@ import com.example.numberplate_10.common.ApiConfig.API.CALL_SOCKET_NAME
 import com.example.numberplate_10.common.ApiConfig.API.CALL_SOCKET_PORT
 import com.example.numberplate_10.common.ApiConfig.LOG_TAG
 import com.example.numberplate_10.common.ConnectionCode.SOCKET_CONNECTED
+import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_CALLED
 import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
+import com.example.numberplate_10.common.TransDataCode.ACCOUNT_NAME
+import com.example.numberplate_10.core.connection.ConnectionListener
 import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.core.socket.SocketManager
 import com.example.numberplate_10.core.socket.SocketManager.SocketConnectListener
 import com.example.numberplate_10.data.httpObj.SocketConnectRq
 import com.example.numberplate_10.data.httpObj.SocketConnectRs
+import com.example.numberplate_10.data.httpObj.UpdateStartingStatusRq
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.utils.DialogUtil
 import com.example.numberplate_10.utils.ToastUtil
@@ -21,12 +25,17 @@ import retrofit2.Response
 
 class RemoteCallActivity : BaseActivity() {
     var isEstablishCallSocket = false
+    lateinit var strAccountName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_remote_call)
-
+        getExtra()
         init()
+    }
+
+    fun getExtra() {
+        strAccountName = intent.getStringExtra(ACCOUNT_NAME) ?: ""
     }
 
     fun init() {
@@ -76,12 +85,28 @@ class RemoteCallActivity : BaseActivity() {
                     cancelLoading()
                     if (STATUS_SUCCESS.equals(this.status)) {
                         ToastUtil.showToast(this@RemoteCallActivity, getString(R.string.remote_call_connect_success))
+                        sendUpdateStartStatus(strAccountName, STATUS_REMOTE_CALLED)
 
                     } else {
                         DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_socket_connect_fail))
 
                     }
                 }
+            }
+
+        })
+
+    }
+
+    fun sendUpdateStartStatus(accountName: String, updateStatus: String) {
+        val updateStartingStatusRq = UpdateStartingStatusRq(accountName, updateStatus)
+        ConnectionManager.sendUpdateStartingStatus(updateStartingStatusRq, object : ConnectionListener<String>{
+            override fun onFail(msg: String) {
+                DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_update_status_fail))
+            }
+
+            override fun onSuccess(t: String) {
+                DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_update_status_success))
             }
 
         })

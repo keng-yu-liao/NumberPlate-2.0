@@ -22,6 +22,7 @@ object ApiConfig {
         const val LOGIN: String = "Login.php"
         const val INIT: String = "Init.php"
         const val GET_STARTING_STATUS: String = "GetStartingStatus.php"
+        const val UPDATE_STARTING_STATUS: String = "UpdateStartingStatus.php"
         const val SOCKET_CONNECT: String = "SocketConnect.php"
     }
 }
