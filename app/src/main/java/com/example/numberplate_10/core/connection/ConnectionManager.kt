@@ -1,11 +1,9 @@
 package com.example.numberplate_10.core.connection
 
 import com.example.numberplate_10.common.ApiConfig
+import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_CALLED
 import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
-import com.example.numberplate_10.data.httpObj.InitRq
-import com.example.numberplate_10.data.httpObj.InitRs
-import com.example.numberplate_10.data.httpObj.Response
-import com.example.numberplate_10.data.httpObj.UpdateStartingStatusRq
+import com.example.numberplate_10.data.httpObj.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -90,6 +88,33 @@ class ConnectionManager {
 
                         } else {
                             connectionListener.onFail("")
+
+                        }
+                    }
+                }
+            })
+        }
+
+        fun sendGetStartingStatus(getStartingStatusRq: GetStartingStatusRq, connectionListener: ConnectionListener<String>) {
+            getInstance().getStartingStatus(getStartingStatusRq.accountName).enqueue(object : Callback<Response> {
+                override fun onFailure(call: Call<Response>, t: Throwable) {
+                    t.message?.let {
+                        connectionListener.onFail(it)
+
+                    }
+                }
+
+                override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                    response.body()?.run {
+                        if (STATUS_SUCCESS == (this.status)) {
+                            if(STATUS_REMOTE_CALLED == this.data) {
+                                connectionListener.onSuccess("")
+                            }
+
+                            connectionListener.onFail("")
+
+                        } else {
+                            connectionListener.onFail(this.status)
 
                         }
                     }

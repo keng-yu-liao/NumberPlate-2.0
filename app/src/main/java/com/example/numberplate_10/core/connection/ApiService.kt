@@ -28,7 +28,7 @@ interface ApiService {
     @GET(ApiConfig.API.GET_STARTING_STATUS)
     fun getStartingStatus (
         @Query("accountName") accountName: String
-    ): Call<GetStartingStatusRs>
+    ): Call<Response>
 
     @GET(ApiConfig.API.SOCKET_CONNECT)
     fun socketConnect (

@@ -2,6 +2,7 @@ package com.example.numberplate_10.ui.section.choose
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import com.example.numberplate_10.R
 import com.example.numberplate_10.common.ApiConfig.API.STORE_TABLE
@@ -14,12 +15,11 @@ import com.example.numberplate_10.data.httpObj.GetStartingStatusRs
 import com.example.numberplate_10.data.httpObj.InitRq
 import com.example.numberplate_10.data.httpObj.InitRs
 import com.example.numberplate_10.ui.base.BaseActivity
+import com.example.numberplate_10.ui.section.numberPad.NumberPadActivity
 import com.example.numberplate_10.ui.section.remoteCall.RemoteCallActivity
 import com.example.numberplate_10.utils.DialogUtil
 import kotlinx.android.synthetic.main.activity_choose.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 class ChooseActivity : BaseActivity(), View.OnClickListener {
     lateinit var strAccountName: String
@@ -71,7 +71,7 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
                 showFailureMsg(msg)
             }
 
-            override fun onSuccess(initRs: InitRs) {
+            override fun onSuccess(t: InitRs) {
                 cancelLoading()
                 DialogUtil.showDialog(this@ChooseActivity, getString(R.string.choose_init_success))
 
@@ -81,27 +81,33 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
 
     private fun sendGetStartingStatus(accountName: String) {
         val getStartingStatusRq = GetStartingStatusRq(accountName)
-        ConnectionManager.getInstance().getStartingStatus(getStartingStatusRq.accountName).enqueue(object : Callback<GetStartingStatusRs> {
-            override fun onFailure(call: Call<GetStartingStatusRs>, t: Throwable) {
+        ConnectionManager.sendGetStartingStatus(getStartingStatusRq, object : ConnectionListener<String>{
+            override fun onFail(msg: String) {
                 resetBtn()
                 cancelLoading()
-                t.message?.let { showFailureMsg(it) }
-            }
 
-            override fun onResponse(call: Call<GetStartingStatusRs>, response: Response<GetStartingStatusRs>) {
-                resetBtn()
-                cancelLoading()
-                response.body()?.run {
-                    checkStartingStatus(this)
+                if (TextUtils.isEmpty(msg)) {
+                    DialogUtil.showDialog(this@ChooseActivity, getString(R.string.choose_remote_first_hint))
+
+                } else {
+                    showFailureMsg(msg)
+
                 }
             }
 
-        })
+            override fun onSuccess(t: String) {
+                resetBtn()
+                cancelLoading()
 
+                val intent = Intent(this@ChooseActivity, NumberPadActivity::class.java)
+                intent.putExtra(ACCOUNT_NAME, strAccountName)
+                startActivity(intent)
+            }
+        })
     }
 
     private fun checkStartingStatus(getStartingStatusRs: GetStartingStatusRs) {
-        if (STATUS_REMOTE_UNCALLED.equals(getStartingStatusRs.status)) {
+        if (STATUS_REMOTE_UNCALLED == (getStartingStatusRs.status)) {
             resetBtn()
             cancelLoading()
             DialogUtil.showDialog(this, getString(R.string.choose_remote_first_hint))

@@ -32,6 +32,10 @@
     <string name="remote_call_update_status_success">更新狀態成功</string>
     <string name="remote_call_update_status_fail">更新狀態失敗</string>
 
+    //叫號QR看板頁
+    <string name="number_pad_title">叫號 QR-CODE</string>
+    <string name="number_pad_hint">現在號碼為: </string>
+
     //其他字串
     <string name="dialog_error_title">錯誤訊息</string>
 
