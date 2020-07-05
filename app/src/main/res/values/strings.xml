@@ -25,8 +25,7 @@
     //遙控叫號頁
     <string name="remote_call_no_number">尚未有等待號碼</string>
     <string name="remote_call_reset">號碼歸零</string>
-    <string name="remote_call_socket_establish_fail">Socket建立失敗</string>
-    <string name="remote_call_socket_connect_fail">Socket連接失敗</string>
+    <string name="remote_call_get_all_num_fail">取得等待號碼失敗</string>
     <string name="remote_call_connect_success">連線成功</string>
     <string name="remote_call_connect_fail">連線失敗</string>
     <string name="remote_call_update_status_success">更新狀態成功</string>

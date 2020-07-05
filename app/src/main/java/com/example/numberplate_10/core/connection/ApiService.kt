@@ -30,10 +30,9 @@ interface ApiService {
         @Query("accountName") accountName: String
     ): Call<Response>
 
-    @GET(ApiConfig.API.SOCKET_CONNECT)
-    fun socketConnect (
-        @Query("socketName") socketName: String,
-        @Query("portNum") portNum: String
-    ): Call<SocketConnectRs>
+    @GET(ApiConfig.API.GET_ALL_WAIT_NUM)
+    fun getAllWaitNum (
+        @Query("storeTableName") tableName: String
+    ): Call<Response>
 
 }
