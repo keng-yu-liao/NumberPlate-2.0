@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/colorYellow"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/item_remote_call_num0"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_item_remote_call"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/item_text_size_remote_call"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/item_remote_call_num1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_item_remote_call"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/item_text_size_remote_call"
+        android:visibility="visible"
+        tools:text="2" />
+
+    <TextView
+        android:id="@+id/item_remote_call_num2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_item_remote_call"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/item_text_size_remote_call"
+        tools:text="3" />
+
+    <TextView
+        android:id="@+id/item_remote_call_num3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_item_remote_call"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/item_text_size_remote_call"
+        tools:text="4" />
+
+    <TextView
+        android:id="@+id/item_remote_call_num4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_item_remote_call"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/item_text_size_remote_call"
+        tools:text="5" />
+
+</LinearLayout>

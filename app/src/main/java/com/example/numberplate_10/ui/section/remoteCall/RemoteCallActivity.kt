@@ -1,7 +1,10 @@
 package com.example.numberplate_10.ui.section.remoteCall
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.numberplate_10.R
 import com.example.numberplate_10.common.ApiConfig.API.STORE_TABLE
 import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_CALLED
@@ -11,14 +14,16 @@ import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.*
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.utils.DialogUtil
+import kotlinx.android.synthetic.main.activity_remote_call.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.android.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class RemoteCallActivity : BaseActivity() {
+class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
     lateinit var strAccountName: String
+    private var remoteCallManager = RemoteCallManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +33,10 @@ class RemoteCallActivity : BaseActivity() {
 
     }
 
+    override fun onClick(num: String) {
+        Log.d("liao", num)
+    }
+
     private fun getExtra() {
         strAccountName = intent.getStringExtra(ACCOUNT_NAME) ?: ""
 
@@ -35,7 +44,22 @@ class RemoteCallActivity : BaseActivity() {
 
     private fun init() {
         showLoading()
+        initRcv()
         sendUpdateStartStatus(strAccountName, STATUS_REMOTE_CALLED)
+
+    }
+
+    private fun initRcv() {
+        rcv_remote_call?.apply {
+            layoutManager = LinearLayoutManager(this@RemoteCallActivity, RecyclerView.VERTICAL, false)
+            adapter = RemoteCallAdapter(this@RemoteCallActivity, remoteCallManager.getRemoteCallList())
+
+        }
+    }
+
+    private fun updateRcv(remoteCallNumList: ArrayList<RemoteRowData>) {
+        remoteCallManager.setRemoteCallList(remoteCallNumList)
+        rcv_remote_call.adapter?.notifyDataSetChanged()
 
     }
 
@@ -48,9 +72,46 @@ class RemoteCallActivity : BaseActivity() {
         }
     }
 
+    private fun processWaitNum(oriWaitNum: String): ArrayList<RemoteRowData> {
+        val remoteRowDataList: ArrayList<RemoteRowData> = ArrayList()
+        val waitArray = oriWaitNum.split("*").toList()
+        val round = waitArray.size / 5
+        val roundRest = waitArray.size % 5
+
+        for (i in 0..round) {
+            val remoteRowData = RemoteRowData(ArrayList<String>(5))
+
+            if (i < round) {
+                for (k in 0..4) {
+                    remoteRowData.rowNumList.add(waitArray[i * 5 + k])
+                }
+
+                remoteRowDataList.add(remoteRowData)
+
+            }
+
+            if (i == round && roundRest != 0) {
+                val roundRestNum = roundRest - 1
+                for (k in 0..roundRestNum) {
+                    remoteRowData.rowNumList.add(waitArray[i * 5 + k])
+                }
+
+                val roundRestNumEmpty: Int = 5 - roundRest
+                repeat(roundRestNumEmpty) {
+                    remoteRowData.rowNumList.add("0")
+                }
+
+                remoteRowDataList.add(remoteRowData)
+
+            }
+        }
+
+        return remoteRowDataList
+    }
+
     private fun sendUpdateStartStatus(accountName: String, updateStatus: String) {
         val updateStartingStatusRq = UpdateStartingStatusRq(accountName, updateStatus)
-        ConnectionManager.sendUpdateStartingStatus(updateStartingStatusRq, object : ConnectionListener<String>{
+        ConnectionManager.sendUpdateStartingStatus(updateStartingStatusRq, object : ConnectionListener<String> {
             override fun onFail(msg: String) {
                 cancelLoading()
                 DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_update_status_fail))
@@ -62,7 +123,6 @@ class RemoteCallActivity : BaseActivity() {
                 getAllNum()
 
             }
-
         })
     }
 
@@ -75,11 +135,12 @@ class RemoteCallActivity : BaseActivity() {
             }
 
             override fun onSuccess(t: String) {
-                Log.d("liao", t.toString())
+                if (!TextUtils.isEmpty(t)) {
+                    updateRcv(processWaitNum(t.toString()))
 
+                }
             }
         })
-
     }
 
 }
