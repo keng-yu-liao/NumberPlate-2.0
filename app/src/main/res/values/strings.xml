@@ -30,6 +30,7 @@
     <string name="remote_call_connect_fail">連線失敗</string>
     <string name="remote_call_update_status_success">更新狀態成功</string>
     <string name="remote_call_update_status_fail">更新狀態失敗</string>
+    <string name="remote_call_update_wait_num_fail">更新等待號碼失敗</string>
 
     //叫號QR看板頁
     <string name="number_pad_title">叫號 QR-CODE</string>

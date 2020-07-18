@@ -144,5 +144,31 @@ class ConnectionManager {
                 }
             })
         }
+
+        fun sendUpdateWaitNum(updateWaitNumRq: UpdateWaitNumRq, connectionListener: ConnectionListener<String>) {
+            getInstance().updateWaitNum(updateWaitNumRq.storeTableName, updateWaitNumRq.updateNum, updateWaitNumRq.numIndex).enqueue(object : Callback<Response> {
+                override fun onFailure(call: Call<Response>, t: Throwable) {
+                    t.message?.let {
+                        connectionListener.onFail(it)
+
+                    }
+                }
+
+                override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                    response.body()?.run {
+                        if (STATUS_SUCCESS == this.status) {
+                            connectionListener.onSuccess(this.data)
+
+                        } else {
+                            connectionListener.onFail(this.status)
+
+                        }
+
+                    }
+                }
+
+            })
+
+        }
     }
 }

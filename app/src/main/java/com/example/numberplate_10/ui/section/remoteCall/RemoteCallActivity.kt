@@ -2,7 +2,6 @@ package com.example.numberplate_10.ui.section.remoteCall
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.numberplate_10.R
@@ -34,7 +33,8 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
     }
 
     override fun onClick(num: String) {
-        Log.d("liao", num)
+        sendUpdateWaitNum(STORE_TABLE, num, getNumIndex(num))
+
     }
 
     private fun getExtra() {
@@ -109,6 +109,14 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
         return remoteRowDataList
     }
 
+    private fun getNumIndex(updateNum: String) : String {
+        return updateNum.toInt().let {
+            val tmp = it + 10
+            tmp.toString().toCharArray().get(0).toString()
+        }
+
+    }
+
     private fun sendUpdateStartStatus(accountName: String, updateStatus: String) {
         val updateStartingStatusRq = UpdateStartingStatusRq(accountName, updateStatus)
         ConnectionManager.sendUpdateStartingStatus(updateStartingStatusRq, object : ConnectionListener<String> {
@@ -138,9 +146,28 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
                 if (!TextUtils.isEmpty(t)) {
                     updateRcv(processWaitNum(t.toString()))
 
+                } else {
+                    updateRcv(ArrayList<RemoteRowData>())
+
                 }
             }
         })
+    }
+
+    private fun sendUpdateWaitNum(tableName: String, updateNum: String, numIndex: String) {
+        val updateWaitNumRq = UpdateWaitNumRq(tableName, updateNum, numIndex)
+        ConnectionManager.sendUpdateWaitNum(updateWaitNumRq, object : ConnectionListener<String> {
+            override fun onFail(msg: String) {
+                DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_update_wait_num_fail))
+
+            }
+
+            override fun onSuccess(t: String) {
+
+            }
+
+        })
+
     }
 
 }
