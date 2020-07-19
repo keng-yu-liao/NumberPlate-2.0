@@ -134,8 +134,8 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
         })
     }
 
-    private fun sendAllWaitNum(accountName: String) {
-        val getAllWaitNumRq = GetAllWaitNumRq(accountName)
+    private fun sendAllWaitNum(tableName: String) {
+        val getAllWaitNumRq = GetAllWaitNumRq(tableName)
         ConnectionManager.sendGetAllWaitNum(getAllWaitNumRq, object : ConnectionListener<String> {
             override fun onFail(msg: String) {
                 DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_get_all_num_fail))
