@@ -6,11 +6,13 @@ import android.view.View
 import com.example.numberplate_10.R
 import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
 import com.example.numberplate_10.common.TransDataCode.ACCOUNT_NAME
+import com.example.numberplate_10.common.TransDataCode.STORE_NAME
 import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.LoginRq
 import com.example.numberplate_10.data.httpObj.LoginRs
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.ui.section.choose.ChooseActivity
+import com.example.numberplate_10.utils.FormatUtil
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Response
@@ -70,6 +72,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (STATUS_SUCCESS == loginRs.status) {
             val intent = Intent(this, ChooseActivity::class.java)
             intent.putExtra(ACCOUNT_NAME, strAccountName)
+            intent.putExtra(STORE_NAME, loginRs.data)
             startActivity(intent)
             finish()
 

@@ -33,8 +33,8 @@
     <string name="remote_call_update_wait_num_fail">更新等待號碼失敗</string>
 
     //叫號QR看板頁
-    <string name="number_pad_title">叫號 QR-CODE</string>
-    <string name="number_pad_hint">現在號碼為: </string>
+    <string name="number_pad_title">店名: *</string>
+    <string name="number_pad_hint">現在號碼為: *</string>
 
     //其他字串
     <string name="dialog_error_title">錯誤訊息</string>

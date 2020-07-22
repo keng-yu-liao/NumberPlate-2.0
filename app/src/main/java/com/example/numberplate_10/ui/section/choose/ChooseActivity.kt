@@ -6,12 +6,11 @@ import android.text.TextUtils
 import android.view.View
 import com.example.numberplate_10.R
 import com.example.numberplate_10.common.ApiConfig.API.STORE_TABLE
-import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_UNCALLED
 import com.example.numberplate_10.common.TransDataCode.ACCOUNT_NAME
+import com.example.numberplate_10.common.TransDataCode.STORE_NAME
 import com.example.numberplate_10.core.connection.ConnectionListener
 import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.GetStartingStatusRq
-import com.example.numberplate_10.data.httpObj.GetStartingStatusRs
 import com.example.numberplate_10.data.httpObj.InitRq
 import com.example.numberplate_10.data.httpObj.InitRs
 import com.example.numberplate_10.ui.base.BaseActivity
@@ -23,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_choose.*
 
 class ChooseActivity : BaseActivity(), View.OnClickListener {
     lateinit var strAccountName: String
+    lateinit var strStoreName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +33,8 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
 
     private fun getExtra() {
         strAccountName = intent.getStringExtra(ACCOUNT_NAME) ?: ""
+        strStoreName = intent.getStringExtra(STORE_NAME) ?: ""
+
     }
 
     private fun init() {
@@ -101,23 +103,10 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
 
                 val intent = Intent(this@ChooseActivity, NumberPadActivity::class.java)
                 intent.putExtra(ACCOUNT_NAME, strAccountName)
+                intent.putExtra(STORE_NAME, strStoreName)
                 startActivity(intent)
             }
         })
-    }
-
-    private fun checkStartingStatus(getStartingStatusRs: GetStartingStatusRs) {
-        if (STATUS_REMOTE_UNCALLED == (getStartingStatusRs.status)) {
-            resetBtn()
-            cancelLoading()
-            DialogUtil.showDialog(this, getString(R.string.choose_remote_first_hint))
-
-        } else {
-            val intent = Intent(this, RemoteCallActivity::class.java)
-            intent.putExtra(ACCOUNT_NAME, strAccountName)
-            startActivity(intent)
-
-        }
     }
 
     private fun gotoRemoteCall() {
