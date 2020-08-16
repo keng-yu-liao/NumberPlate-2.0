@@ -10,7 +10,7 @@
         android:id="@+id/tv_number_pad_store_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/text_size_big_title"
@@ -23,19 +23,19 @@
         android:id="@+id/img_number_qr_code"
         android:layout_width="@dimen/img_size_number_pad"
         android:layout_height="@dimen/img_size_number_pad"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_number_pad_store_name"
-        tools:src="@drawable/ic_launcher_foreground"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="32dp"
         android:text="@string/number_pad_hint"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/text_size_big_title"

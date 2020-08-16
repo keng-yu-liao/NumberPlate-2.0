@@ -41,4 +41,10 @@ interface ApiService {
         @Query("updateNum") updateNum: String,
         @Query("numIndex")numIndex: String
     ): Call<Response>
+
+    @GET(ApiConfig.API.GET_LAST_WAIT_NUM)
+    fun getLastWaitNum(
+        @Query("storeTableName") tableName: String
+    ): Call<Response>
+
 }

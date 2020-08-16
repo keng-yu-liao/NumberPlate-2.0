@@ -29,7 +29,7 @@ class ConnectionManager {
             return Retrofit.Builder()
                     .client(createOkHttpClient())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(ApiConfig.API.BASE_URL)
+                    .baseUrl(ApiConfig.API.BASE_API_URL)
                     .build().create(ApiService::class.java)
         }
 
@@ -107,7 +107,7 @@ class ConnectionManager {
                 override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
                     response.body()?.run {
                         if (STATUS_SUCCESS == (this.status)) {
-                            if(STATUS_REMOTE_CALLED == this.data) {
+                            if (STATUS_REMOTE_CALLED == this.data) {
                                 connectionListener.onSuccess("")
                             }
 
@@ -166,7 +166,29 @@ class ConnectionManager {
 
                     }
                 }
+            })
 
+        }
+
+        fun sendGetLastWaitNum(getLastWaitNumRq: GetLastWaitNumRq, connectionListener: ConnectionListener<String>) {
+            getInstance().getLastWaitNum(getLastWaitNumRq.storeTableName).enqueue(object : Callback<Response> {
+                override fun onFailure(call: Call<Response>, t: Throwable) {
+                    t.message?.let {
+                        connectionListener.onFail(it)
+                    }
+                }
+
+                override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                    response.body()?.run {
+                        if (STATUS_SUCCESS == this.status) {
+                            connectionListener.onSuccess(this.data)
+
+                        } else {
+                            connectionListener.onFail(this.status)
+
+                        }
+                    }
+                }
             })
 
         }
