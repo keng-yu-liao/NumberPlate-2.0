@@ -36,7 +36,8 @@
     <string name="number_pad_title">店名: *</string>
     <string name="number_pad_hint">現在號碼為: *</string>
 
-    //其他字串
+    //警告字串
     <string name="dialog_error_title">錯誤訊息</string>
+    <string name="error_no_internet">網路狀況問題，請確認網路連線</string>
 
 </resources>

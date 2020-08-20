@@ -1,5 +1,6 @@
 package com.example.numberplate_10.core.connection
 
+import android.content.Context
 import com.example.numberplate_10.common.ApiConfig
 import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_CALLED
 import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
@@ -16,10 +17,14 @@ class ConnectionManager {
 
     companion object {
         private var apiService: ApiService? = null
+        private lateinit var mContex: Context
+
+        fun setContext(context: Context) {
+            mContex = context
+
+        }
 
         @Synchronized
-
-
         fun getInstance(): ApiService {
             return apiService ?: build()
         }
@@ -38,6 +43,7 @@ class ConnectionManager {
                     .connectTimeout(ApiConfig.API.TIMEOUT_CONNECT, TimeUnit.SECONDS)
                     .readTimeout(ApiConfig.API.TIMEOUT_READ, TimeUnit.SECONDS)
                     .addInterceptor(createLoggingInterceptor())
+                    .addInterceptor(HttpConnectInterceptor(mContex))
                     .build()
         }
 

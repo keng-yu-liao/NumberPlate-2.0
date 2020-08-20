@@ -12,11 +12,10 @@ import com.example.numberplate_10.data.httpObj.LoginRq
 import com.example.numberplate_10.data.httpObj.LoginRs
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.ui.section.choose.ChooseActivity
-import com.example.numberplate_10.utils.FormatUtil
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
@@ -36,8 +35,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        val id = view?.id
-        when (id) {
+        when (view?.id) {
             R.id.login_btn -> {
                 lockBtn()
                 showLoading(getString(R.string.login_loging))

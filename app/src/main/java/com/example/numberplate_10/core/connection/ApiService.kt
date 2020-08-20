@@ -1,7 +1,8 @@
 package com.example.numberplate_10.core.connection
 
 import com.example.numberplate_10.common.ApiConfig
-import com.example.numberplate_10.data.httpObj.*
+import com.example.numberplate_10.data.httpObj.LoginRs
+import com.example.numberplate_10.data.httpObj.Response
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
