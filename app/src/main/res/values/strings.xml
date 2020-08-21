@@ -40,4 +40,7 @@
     <string name="dialog_error_title">錯誤訊息</string>
     <string name="error_no_internet">網路狀況問題，請確認網路連線</string>
 
+    //輸入條件
+    <string name="login_condition">0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM</string>
+
 </resources>

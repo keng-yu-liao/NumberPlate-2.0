@@ -1,6 +1,7 @@
 package com.example.numberplate_10.core.connection
 
 import android.content.Context
+import com.example.numberplate_10.R
 import com.example.numberplate_10.common.ApiConfig
 import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_CALLED
 import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
@@ -117,7 +118,7 @@ class ConnectionManager {
                                 connectionListener.onSuccess("")
                             }
 
-                            connectionListener.onFail("")
+                            connectionListener.onFail(mContex.getString(R.string.choose_remote_first_hint))
 
                         } else {
                             connectionListener.onFail(this.status)

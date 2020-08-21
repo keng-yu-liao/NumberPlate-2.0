@@ -2,7 +2,6 @@ package com.example.numberplate_10.ui.section.choose
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import com.example.numberplate_10.R
 import com.example.numberplate_10.common.ApiConfig.API.STORE_TABLE
@@ -50,7 +49,6 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.img_choose_remote, R.id.tv_choose_remote -> {
-                lockBtn()
                 gotoRemoteCall()
                 finish()
 
@@ -87,14 +85,8 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
             override fun onFail(msg: String) {
                 resetBtn()
                 cancelLoading()
+                showFailureMsg(msg)
 
-                if (TextUtils.isEmpty(msg)) {
-                    DialogUtil.showDialog(this@ChooseActivity, getString(R.string.choose_remote_first_hint))
-
-                } else {
-                    showFailureMsg(msg)
-
-                }
             }
 
             override fun onSuccess(t: String) {
