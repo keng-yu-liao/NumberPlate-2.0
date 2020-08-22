@@ -2,7 +2,10 @@ package com.example.numberplate_10.ui.section.remoteCall
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.numberplate_10.R
 import com.example.numberplate_10.data.httpObj.RemoteRowData
@@ -54,48 +57,24 @@ class RemoteCallAdapter(private val listener: OnItemListener, private var remote
     }
 
     private fun setRemoteCallRow(remoteCallViewHolder: RemoteCallViewHolder, remoteRowData: RemoteRowData) {
+        val remoteRowDataViewSet = setOf<TextView>(remoteCallViewHolder.itemView.item_remote_call_num0,
+                remoteCallViewHolder.itemView.item_remote_call_num1,
+                remoteCallViewHolder.itemView.item_remote_call_num2,
+                remoteCallViewHolder.itemView.item_remote_call_num3,
+                remoteCallViewHolder.itemView.item_remote_call_num4)
 
-        val strNum0 = remoteRowData.rowNumList[0]
-        remoteCallViewHolder.itemView.item_remote_call_num0.text = strNum0
+        (0 until remoteRowData.rowNumList.size).forEach {
+            val strNum = remoteRowData.rowNumList[it]
+            remoteRowDataViewSet.elementAt(it).apply {
+                if (strNum != "0") {
+                    this.visibility = VISIBLE
+                    this.text = strNum
 
-        if (remoteRowData.rowNumList[1] != "0") {
-            val strNum1 = remoteRowData.rowNumList[1]
-            remoteCallViewHolder.itemView.item_remote_call_num1.visibility = View.VISIBLE
-            remoteCallViewHolder.itemView.item_remote_call_num1.text = strNum1
+                } else {
+                    this.visibility = INVISIBLE
 
-        } else {
-            remoteCallViewHolder.itemView.item_remote_call_num1.visibility = View.INVISIBLE
-
-        }
-
-        if (remoteRowData.rowNumList[2] != "0") {
-            val strNum2 = remoteRowData.rowNumList[2]
-            remoteCallViewHolder.itemView.item_remote_call_num2.visibility = View.VISIBLE
-            remoteCallViewHolder.itemView.item_remote_call_num2.text = strNum2
-
-        } else {
-            remoteCallViewHolder.itemView.item_remote_call_num2.visibility = View.INVISIBLE
-
-        }
-
-        if (remoteRowData.rowNumList[3] != "0") {
-            val strNum3 = remoteRowData.rowNumList[3]
-            remoteCallViewHolder.itemView.item_remote_call_num3.visibility = View.VISIBLE
-            remoteCallViewHolder.itemView.item_remote_call_num3.text = strNum3
-
-        } else {
-            remoteCallViewHolder.itemView.item_remote_call_num3.visibility = View.INVISIBLE
-
-        }
-
-        if (remoteRowData.rowNumList[4] != "0") {
-            val strNum4 = remoteRowData.rowNumList[4]
-            remoteCallViewHolder.itemView.item_remote_call_num4.visibility = View.VISIBLE
-            remoteCallViewHolder.itemView.item_remote_call_num4.text = strNum4
-
-        } else {
-            remoteCallViewHolder.itemView.item_remote_call_num4.visibility = View.INVISIBLE
-
+                }
+            }
         }
     }
 

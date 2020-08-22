@@ -2,6 +2,8 @@ package com.example.numberplate_10.ui.section.remoteCall
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.numberplate_10.R
@@ -32,7 +34,14 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        remoteCallManager.stopRemoteCallJob()
+
+    }
+
     override fun onClick(num: String) {
+        showLoading()
         sendUpdateWaitNum(STORE_TABLE, num, getNumIndex(num))
 
     }
@@ -57,19 +66,27 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
         }
     }
 
-    private fun updateRcv(remoteCallNumList: ArrayList<RemoteRowData>) {
-        remoteCallManager.setRemoteCallList(remoteCallNumList)
+    private fun updateRcv(remoteCallNumList: ArrayList<RemoteRowData>?) {
+        if (remoteCallNumList == null) {
+            remoteCallManager.getRemoteCallList().clear()
+
+        } else {
+            remoteCallManager.setRemoteCallList(remoteCallNumList)
+
+        }
         rcv_remote_call.adapter?.notifyDataSetChanged()
 
     }
 
     private fun getAllNum() {
-        GlobalScope.launch(Dispatchers.Main) {
+        val remoteJob = GlobalScope.launch(Dispatchers.Main) {
             while (true) {
                 sendAllWaitNum(STORE_TABLE)
                 delay(2000)
             }
         }
+
+        remoteCallManager.setRemoteCallJob(remoteJob)
     }
 
     private fun processWaitNum(oriWaitNum: String): ArrayList<RemoteRowData> {
@@ -138,16 +155,20 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
         val getAllWaitNumRq = GetAllWaitNumRq(tableName)
         ConnectionManager.sendGetAllWaitNum(getAllWaitNumRq, object : ConnectionListener<String> {
             override fun onFail(msg: String) {
+                cancelLoading()
                 DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_get_all_num_fail))
 
             }
 
             override fun onSuccess(t: String) {
+                cancelLoading()
                 if (!TextUtils.isEmpty(t)) {
                     updateRcv(processWaitNum(t.toString()))
+                    tv_remote_call_no_num.visibility = INVISIBLE
 
                 } else {
-                    updateRcv(ArrayList<RemoteRowData>())
+                    updateRcv(null)
+                    tv_remote_call_no_num.visibility = VISIBLE
 
                 }
             }
