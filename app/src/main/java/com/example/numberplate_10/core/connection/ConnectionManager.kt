@@ -78,7 +78,7 @@ class ConnectionManager {
             })
         }
 
-        fun sendInit(initRq: InitRq, connectionListener: ConnectionListener<InitRs>) {
+        fun sendInit(initRq: InitRq, connectionListener: ConnectionListener<String>) {
             getInstance().init(initRq.tableName, initRq.accountName).enqueue(object : Callback<Response> {
                 override fun onFailure(call: Call<Response>, t: Throwable) {
                     t.message?.let {
@@ -90,8 +90,7 @@ class ConnectionManager {
                 override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
                     response.body()?.run {
                         if (STATUS_SUCCESS == (this.status)) {
-                            val initRs = InitRs(this.data)
-                            connectionListener.onSuccess(initRs)
+                            connectionListener.onSuccess("")
 
                         } else {
                             connectionListener.onFail(this.data)

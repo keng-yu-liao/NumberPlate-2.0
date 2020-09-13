@@ -11,13 +11,11 @@ import com.example.numberplate_10.core.connection.ConnectionListener
 import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.GetStartingStatusRq
 import com.example.numberplate_10.data.httpObj.InitRq
-import com.example.numberplate_10.data.httpObj.InitRs
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.ui.section.numberPad.NumberPadActivity
 import com.example.numberplate_10.ui.section.remoteCall.RemoteCallActivity
 import com.example.numberplate_10.utils.DialogUtil
 import kotlinx.android.synthetic.main.activity_choose.*
-
 
 class ChooseActivity : BaseActivity(), View.OnClickListener {
     lateinit var strAccountName: String
@@ -28,6 +26,7 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_choose)
         getExtra()
         init()
+
     }
 
     private fun getExtra() {
@@ -42,7 +41,6 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
         img_choose_calling_pad.setOnClickListener(this)
         tv_choose_calling_pad.setOnClickListener(this)
 
-        showLoading(getString(R.string.choose_init_process))
         sendInit(STORE_TABLE, strAccountName)
     }
 
@@ -56,7 +54,6 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
 
             R.id.img_choose_calling_pad, R.id.tv_choose_calling_pad -> {
                 lockBtn()
-                showLoading()
                 sendGetStartingStatus(strAccountName)
 
             }
@@ -64,14 +61,17 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun sendInit(tablename: String, accountName: String) {
+        showLoading(getString(R.string.choose_init_process))
+
         val initRq = InitRq(tablename, accountName)
-        ConnectionManager.sendInit(initRq, object : ConnectionListener<InitRs>{
+        ConnectionManager.sendInit(initRq, object : ConnectionListener<String> {
             override fun onFail(msg: String) {
                 cancelLoading()
                 showFailureMsg(msg)
+
             }
 
-            override fun onSuccess(t: InitRs) {
+            override fun onSuccess(data: String) {
                 cancelLoading()
                 DialogUtil.showDialog(this@ChooseActivity, getString(R.string.choose_init_success))
 
@@ -80,8 +80,10 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun sendGetStartingStatus(accountName: String) {
+        showLoading()
+
         val getStartingStatusRq = GetStartingStatusRq(accountName)
-        ConnectionManager.sendGetStartingStatus(getStartingStatusRq, object : ConnectionListener<String>{
+        ConnectionManager.sendGetStartingStatus(getStartingStatusRq, object : ConnectionListener<String> {
             override fun onFail(msg: String) {
                 resetBtn()
                 cancelLoading()
@@ -92,11 +94,7 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
             override fun onSuccess(t: String) {
                 resetBtn()
                 cancelLoading()
-
-                val intent = Intent(this@ChooseActivity, NumberPadActivity::class.java)
-                intent.putExtra(ACCOUNT_NAME, strAccountName)
-                intent.putExtra(STORE_NAME, strStoreName)
-                startActivity(intent)
+                gotoNumberPad()
             }
         })
     }
@@ -108,11 +106,20 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
 
     }
 
+    private fun gotoNumberPad() {
+        val intent = Intent(this@ChooseActivity, NumberPadActivity::class.java)
+        intent.putExtra(ACCOUNT_NAME, strAccountName)
+        intent.putExtra(STORE_NAME, strStoreName)
+        startActivity(intent)
+
+    }
+
     private fun lockBtn() {
         img_choose_remote.isEnabled = false
         tv_choose_remote.isEnabled = false
         img_choose_calling_pad.isEnabled = false
         tv_choose_calling_pad.isEnabled = false
+
     }
 
     private fun resetBtn() {
@@ -120,5 +127,6 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
         tv_choose_remote.isEnabled = true
         img_choose_calling_pad.isEnabled = true
         tv_choose_calling_pad.isEnabled = true
+
     }
 }
