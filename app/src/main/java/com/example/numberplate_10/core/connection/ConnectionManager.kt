@@ -55,6 +55,29 @@ class ConnectionManager {
             return httpLoggingInterceptor
         }
 
+        fun sendLogin(loginRq: LoginRq, connectionListener: ConnectionListener<String>) {
+            getInstance().login(loginRq.accountName, loginRq.accountPassword).enqueue(object : Callback<Response> {
+                override fun onFailure(call: Call<Response>, t: Throwable) {
+                    t.message?.let {
+                        connectionListener.onFail(it)
+
+                    }
+                }
+
+                override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                    response.body()?.run {
+                        if (STATUS_SUCCESS == this.status) {
+                            connectionListener.onSuccess(this.data)
+
+                        } else {
+                            connectionListener.onFail("")
+
+                        }
+                    }
+                }
+            })
+        }
+
         fun sendInit(initRq: InitRq, connectionListener: ConnectionListener<InitRs>) {
             getInstance().init(initRq.tableName, initRq.accountName).enqueue(object : Callback<Response> {
                 override fun onFailure(call: Call<Response>, t: Throwable) {

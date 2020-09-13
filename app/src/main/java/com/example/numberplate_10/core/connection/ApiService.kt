@@ -1,7 +1,6 @@
 package com.example.numberplate_10.core.connection
 
 import com.example.numberplate_10.common.ApiConfig
-import com.example.numberplate_10.data.httpObj.LoginRs
 import com.example.numberplate_10.data.httpObj.Response
 import retrofit2.Call
 import retrofit2.http.GET
@@ -12,7 +11,7 @@ interface ApiService {
     fun login(
         @Query("accountName") accountName: String,
         @Query("accountPassword") accountPassword: String
-    ): Call<LoginRs>
+    ): Call<Response>
 
     @GET(ApiConfig.API.INIT)
     fun init(

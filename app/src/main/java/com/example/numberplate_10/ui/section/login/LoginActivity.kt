@@ -2,20 +2,17 @@ package com.example.numberplate_10.ui.section.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import com.example.numberplate_10.R
-import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
 import com.example.numberplate_10.common.TransDataCode.ACCOUNT_NAME
 import com.example.numberplate_10.common.TransDataCode.STORE_NAME
+import com.example.numberplate_10.core.connection.ConnectionListener
 import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.LoginRq
-import com.example.numberplate_10.data.httpObj.LoginRs
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.ui.section.choose.ChooseActivity
 import kotlinx.android.synthetic.main.activity_login.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
@@ -48,36 +45,30 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun sendLogin() {
         val loginRq = LoginRq(strAccountName, strAccountPassword)
-        ConnectionManager.getInstance().login(loginRq.accountName, loginRq.accountPassword).enqueue(object : Callback<LoginRs> {
-            override fun onFailure(call: Call<LoginRs>, t: Throwable) {
+        ConnectionManager.sendLogin(loginRq, object : ConnectionListener<String> {
+            override fun onFail(msg: String) {
                 resetBtn()
                 cancelLoading()
-                t.message?.let { showFailureMsg(it) }
-            }
 
-            override fun onResponse(call: Call<LoginRs>, response: Response<LoginRs>) {
-                resetBtn()
-                cancelLoading()
-                response.body()?.run {
-                    login(this)
+                if (TextUtils.isEmpty(msg)) {
+                    showFailureMsg(getString(R.string.login_fail))
+
+                } else {
+                    showFailureMsg(msg)
+
                 }
             }
 
+            override fun onSuccess(data: String) {
+                val intent = Intent(this@LoginActivity, ChooseActivity::class.java).apply {
+                    putExtra(ACCOUNT_NAME, strAccountName)
+                    putExtra(STORE_NAME, data)
+                }
+
+                startActivity(intent)
+                finish()
+            }
         })
-    }
-
-    private fun login(loginRs: LoginRs) {
-        if (STATUS_SUCCESS == loginRs.status) {
-            val intent = Intent(this, ChooseActivity::class.java)
-            intent.putExtra(ACCOUNT_NAME, strAccountName)
-            intent.putExtra(STORE_NAME, loginRs.data)
-            startActivity(intent)
-            finish()
-
-        } else {
-            showFailureMsg(getString(R.string.login_fail))
-
-        }
 
     }
 
