@@ -8,7 +8,6 @@ import com.example.numberplate_10.common.TransDataCode.STORE_NAME
 import com.example.numberplate_10.core.connection.ConnectionListener
 import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.GetLastWaitNumRq
-import com.example.numberplate_10.data.httpObj.Response
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.utils.DialogUtil
 import com.example.numberplate_10.utils.QRcodeUtil
@@ -46,7 +45,7 @@ class NumberPadActivity : BaseActivity() {
         updateQRcodeJob = GlobalScope.launch(Dispatchers.Main) {
             while (true) {
                 sendGetLastWaitNum(STORE_TABLE)
-                delay(2000)
+                delay(1500)
             }
 
         }
