@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.numberplate_10.R
-import com.example.numberplate_10.data.httpObj.RemoteRowData
 import kotlinx.android.synthetic.main.item_remote_call_row.view.*
 
-class RemoteCallAdapter(private val listener: OnItemListener, private var remoteRowDataList: ArrayList<RemoteRowData>) : RecyclerView.Adapter<RemoteCallAdapter.RemoteCallViewHolder>() {
+class RemoteCallAdapter(private val listener: OnItemListener, private var remoteRowDataList: ArrayList<String>) : RecyclerView.Adapter<RemoteCallAdapter.RemoteCallViewHolder>() {
 
     interface OnItemListener {
         fun onClick(num: String)
@@ -56,15 +55,17 @@ class RemoteCallAdapter(private val listener: OnItemListener, private var remote
 
     }
 
-    private fun setRemoteCallRow(remoteCallViewHolder: RemoteCallViewHolder, remoteRowData: RemoteRowData) {
+    private fun setRemoteCallRow(remoteCallViewHolder: RemoteCallViewHolder, remoteRowData: String) {
+        val remoteRowDataSplit = remoteRowData.split("*")
+
         val remoteRowDataViewSet = setOf<TextView>(remoteCallViewHolder.itemView.item_remote_call_num0,
                 remoteCallViewHolder.itemView.item_remote_call_num1,
                 remoteCallViewHolder.itemView.item_remote_call_num2,
                 remoteCallViewHolder.itemView.item_remote_call_num3,
                 remoteCallViewHolder.itemView.item_remote_call_num4)
 
-        (0 until remoteRowData.rowNumList.size).forEach {
-            val strNum = remoteRowData.rowNumList[it]
+        (remoteRowDataSplit.indices).forEach {
+            val strNum = remoteRowDataSplit[it]
             remoteRowDataViewSet.elementAt(it).apply {
                 if (strNum != "0") {
                     this.visibility = VISIBLE

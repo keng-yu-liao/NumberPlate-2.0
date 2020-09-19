@@ -66,7 +66,7 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
         }
     }
 
-    private fun updateRcv(remoteCallNumList: ArrayList<RemoteRowData>?) {
+    private fun updateRcv(remoteCallNumList: ArrayList<String>?) {
         if (remoteCallNumList == null) {
             remoteCallManager.getRemoteCallList().clear()
 
@@ -89,47 +89,49 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
         remoteCallManager.setRemoteCallJob(remoteJob)
     }
 
-    private fun processWaitNum(oriWaitNum: String): ArrayList<RemoteRowData> {
-        val remoteRowDataList: ArrayList<RemoteRowData> = ArrayList()
-        val waitArray = oriWaitNum.split("*").toList()
-        val round = waitArray.size / 5
-        val roundRest = waitArray.size % 5
+    private fun processWaitNum(oriWaitNum: String): ArrayList<String> {
+        val waitNumArray = oriWaitNum.split("*")
+        val round = waitNumArray.size / 5
+        val roundRest = waitNumArray.size % 5
+        val processNumList = ArrayList<String>()
 
         for (i in 0..round) {
-            val remoteRowData = RemoteRowData(ArrayList<String>(5))
-
+            // 整除5，滿排數字
             if (i < round) {
-                for (k in 0..4) {
-                    remoteRowData.rowNumList.add(waitArray[i * 5 + k])
+                processNumList.add("${waitNumArray[i*5]}*${waitNumArray[i*5+1]}*${waitNumArray[i*5+2]}*${waitNumArray[i*5+3]}*${waitNumArray[i*5+4]}")
+
+                // 剩下的排數，未滿
+            } else {
+                var lastWaitNumLine: String = ""
+
+                for (k in 0 until roundRest) {
+                    lastWaitNumLine = if (k == 0) {
+                        waitNumArray[round*5 + k]
+
+                    } else {
+                        "$lastWaitNumLine*${waitNumArray[round*5 + k]}"
+
+                    }
+
                 }
 
-                remoteRowDataList.add(remoteRowData)
+                //有缺補零
+                for (j in 0 until (5 - roundRest)) {
+                    lastWaitNumLine = "$lastWaitNumLine*0"
 
-            }
-
-            if (i == round && roundRest != 0) {
-                val roundRestNum = roundRest - 1
-                for (k in 0..roundRestNum) {
-                    remoteRowData.rowNumList.add(waitArray[i * 5 + k])
                 }
 
-                val roundRestNumEmpty: Int = 5 - roundRest
-                repeat(roundRestNumEmpty) {
-                    remoteRowData.rowNumList.add("0")
-                }
-
-                remoteRowDataList.add(remoteRowData)
-
+                processNumList.add(lastWaitNumLine)
             }
         }
 
-        return remoteRowDataList
+        return processNumList
     }
 
     private fun getNumIndex(updateNum: String) : String {
         return updateNum.toInt().let {
             val tmp = it + 10
-            tmp.toString().toCharArray().get(0).toString()
+            tmp.toString().toCharArray()[0].toString()
         }
 
     }
@@ -142,7 +144,7 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
                 DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_update_status_fail))
             }
 
-            override fun onSuccess(t: String) {
+            override fun onSuccess(data: String) {
                 cancelLoading()
                 DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_update_status_success))
                 getAllNum()
@@ -160,10 +162,10 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
 
             }
 
-            override fun onSuccess(t: String) {
+            override fun onSuccess(data: String) {
                 cancelLoading()
-                if (!TextUtils.isEmpty(t)) {
-                    updateRcv(processWaitNum(t.toString()))
+                if (!TextUtils.isEmpty(data)) {
+                    updateRcv(processWaitNum(data))
                     tv_remote_call_no_num.visibility = INVISIBLE
 
                 } else {
@@ -183,7 +185,7 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
 
             }
 
-            override fun onSuccess(t: String) {
+            override fun onSuccess(data: String) {
 
             }
 
