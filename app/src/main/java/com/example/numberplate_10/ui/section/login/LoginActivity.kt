@@ -60,6 +60,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
 
             override fun onSuccess(data: String) {
+                cancelLoading()
+
                 val intent = Intent(this@LoginActivity, ChooseActivity::class.java).apply {
                     putExtra(ACCOUNT_NAME, strAccountName)
                     putExtra(STORE_NAME, data)
