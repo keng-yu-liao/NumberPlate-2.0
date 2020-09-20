@@ -6,7 +6,7 @@ object ApiConfig {
     object API {
 
         //APP 設定參數
-        const val BASE_API_URL: String = "http://35.229.169.52/NumberPlate-1.0-Server/"
+        const val BASE_API_URL: String = "http://35.229.169.52/NumberPlate-1.0-Server/app/"
         const val BASE_WEB_URL: String = "http://35.229.169.52/NumberPlate-1.0-Web/number_plate_10.html?storeTableName=*STORE_TABLE_NAME&yourNum=*YOUR_NUM"
         const val STORE_TABLE: String = "store_test_num_status"
         const val TIMEOUT_CONNECT = 5L
