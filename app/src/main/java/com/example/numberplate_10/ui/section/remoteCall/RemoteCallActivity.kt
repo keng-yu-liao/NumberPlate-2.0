@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
     lateinit var strAccountName: String
     private var remoteCallManager = RemoteCallManager()
+    private var clickLock: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +42,12 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
     }
 
     override fun onClick(num: String) {
-        showLoading()
-        sendUpdateWaitNum(STORE_TABLE, num, getNumIndex(num))
+        if (!clickLock) {
+            clickLock = true
+            showLoading()
+            sendUpdateWaitNum(STORE_TABLE, num, getNumIndex(num))
 
+        }
     }
 
     private fun getExtra() {
@@ -181,12 +185,13 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
         val updateWaitNumRq = UpdateWaitNumRq(tableName, updateNum, numIndex)
         ConnectionManager.sendUpdateWaitNum(updateWaitNumRq, object : ConnectionListener<String> {
             override fun onFail(msg: String) {
+                clickLock = false
                 DialogUtil.showDialog(this@RemoteCallActivity, getString(R.string.remote_call_update_wait_num_fail))
 
             }
 
             override fun onSuccess(data: String) {
-
+                clickLock = false
             }
 
         })
