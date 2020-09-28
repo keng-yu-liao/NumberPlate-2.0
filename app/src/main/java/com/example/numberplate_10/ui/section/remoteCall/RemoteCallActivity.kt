@@ -7,7 +7,7 @@ import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.numberplate_10.R
-import com.example.numberplate_10.common.ApiConfig.API.STORE_TABLE
+import com.example.numberplate_10.common.ApiConfig
 import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_CALLED
 import com.example.numberplate_10.common.TransDataCode.ACCOUNT_NAME
 import com.example.numberplate_10.core.connection.ConnectionListener
@@ -45,7 +45,7 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
         if (!clickLock) {
             clickLock = true
             showLoading()
-            sendUpdateWaitNum(STORE_TABLE, num, getNumIndex(num))
+            sendUpdateWaitNum(ApiConfig.API.APP_CONFIG.getStoreTable(), num, getNumIndex(num))
 
         }
     }
@@ -85,7 +85,7 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
     private fun getAllNum() {
         val remoteJob = GlobalScope.launch(Dispatchers.Main) {
             while (true) {
-                sendAllWaitNum(STORE_TABLE)
+                sendAllWaitNum(ApiConfig.API.APP_CONFIG.getStoreTable())
                 delay(2000)
             }
         }

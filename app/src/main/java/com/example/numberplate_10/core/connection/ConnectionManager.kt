@@ -6,6 +6,7 @@ import com.example.numberplate_10.common.ApiConfig
 import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_CALLED
 import com.example.numberplate_10.common.ConnectionCode.STATUS_SUCCESS
 import com.example.numberplate_10.data.httpObj.*
+import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -55,19 +56,21 @@ class ConnectionManager {
             return httpLoggingInterceptor
         }
 
-        fun sendLogin(loginRq: LoginRq, connectionListener: ConnectionListener<String>) {
-            getInstance().login(loginRq.accountName, loginRq.accountPassword).enqueue(object : Callback<Response> {
-                override fun onFailure(call: Call<Response>, t: Throwable) {
+        fun sendLogin(loginRq: LoginRq, connectionListener: ConnectionListener<LoginRsData>) {
+            getInstance().login(loginRq.accountName, loginRq.accountPassword).enqueue(object : Callback<LoginRs> {
+
+                override fun onFailure(call: Call<LoginRs>, t: Throwable) {
                     t.message?.let {
                         connectionListener.onFail(it)
 
                     }
                 }
 
-                override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                override fun onResponse(call: Call<LoginRs>, response: retrofit2.Response<LoginRs>) {
                     response.body()?.run {
                         if (STATUS_SUCCESS == this.status) {
-                            connectionListener.onSuccess(this.data)
+                            val loginRsData = Gson().fromJson<LoginRsData>(this.data, LoginRsData::class.java)
+                            connectionListener.onSuccess(loginRsData)
 
                         } else {
                             connectionListener.onFail("")

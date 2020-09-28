@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import com.example.numberplate_10.R
+import com.example.numberplate_10.common.ApiConfig
 import com.example.numberplate_10.common.TransDataCode.ACCOUNT_NAME
 import com.example.numberplate_10.common.TransDataCode.STORE_NAME
 import com.example.numberplate_10.core.connection.ConnectionListener
 import com.example.numberplate_10.core.connection.ConnectionManager
 import com.example.numberplate_10.data.httpObj.LoginRq
+import com.example.numberplate_10.data.httpObj.LoginRsData
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.ui.section.choose.ChooseActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -45,7 +47,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun sendLogin() {
         val loginRq = LoginRq(strAccountName, strAccountPassword)
-        ConnectionManager.sendLogin(loginRq, object : ConnectionListener<String> {
+        ConnectionManager.sendLogin(loginRq, object : ConnectionListener<LoginRsData> {
             override fun onFail(msg: String) {
                 resetBtn()
                 cancelLoading()
@@ -59,12 +61,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 }
             }
 
-            override fun onSuccess(data: String) {
+            override fun onSuccess(data: LoginRsData) {
                 cancelLoading()
+                ApiConfig.API.APP_CONFIG.setStoreTable(data.storeTableName)
 
                 val intent = Intent(this@LoginActivity, ChooseActivity::class.java).apply {
                     putExtra(ACCOUNT_NAME, strAccountName)
-                    putExtra(STORE_NAME, data)
+                    putExtra(STORE_NAME, data.storeName)
                 }
 
                 startActivity(intent)

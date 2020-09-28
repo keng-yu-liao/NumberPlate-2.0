@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.example.numberplate_10.R
-import com.example.numberplate_10.common.ApiConfig.API.STORE_TABLE
+import com.example.numberplate_10.common.ApiConfig
 import com.example.numberplate_10.common.TransDataCode.ACCOUNT_NAME
 import com.example.numberplate_10.common.TransDataCode.STORE_NAME
 import com.example.numberplate_10.core.connection.ConnectionListener
@@ -41,7 +41,7 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
         img_choose_calling_pad.setOnClickListener(this)
         tv_choose_calling_pad.setOnClickListener(this)
 
-        sendInit(STORE_TABLE, strAccountName)
+        sendInit(ApiConfig.API.APP_CONFIG.getStoreTable(), strAccountName)
     }
 
     override fun onClick(view: View?) {
@@ -91,7 +91,7 @@ class ChooseActivity : BaseActivity(), View.OnClickListener {
 
             }
 
-            override fun onSuccess(t: String) {
+            override fun onSuccess(data: String) {
                 resetBtn()
                 cancelLoading()
                 gotoNumberPad()
