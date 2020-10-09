@@ -8,6 +8,7 @@ object ApiConfig {
         //APP 設定參數
         const val BASE_API_URL: String = "http://35.229.169.52/NumberPlate-1.0-Server/app/"
         const val BASE_WEB_URL: String = "http://35.229.169.52/NumberPlate-1.0-Web/number_plate_10.html?storeTableName=*STORE_TABLE_NAME&yourNum=*YOUR_NUM"
+        const val MY_EMAIL: String = "g.y.liao81@gmail.com"
         const val TIMEOUT_CONNECT = 5L
         const val TIMEOUT_READ = 5L
 
@@ -22,6 +23,7 @@ object ApiConfig {
 
         object APP_CONFIG {
             private var STORE_TABLE: String = ""
+            private var FIRST_OPEN: Boolean = true
 
             fun setStoreTable(tableName: String) {
                 STORE_TABLE = tableName
@@ -29,6 +31,14 @@ object ApiConfig {
 
             fun getStoreTable(): String {
                 return STORE_TABLE
+            }
+
+            fun setFirstOpen() {
+                FIRST_OPEN = false
+            }
+
+            fun getFirstOpen(): Boolean {
+                return FIRST_OPEN
             }
         }
     }

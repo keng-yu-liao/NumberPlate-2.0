@@ -22,5 +22,17 @@ class DialogUtil {
 
         }
 
+        fun showDialogWithPosNegListener(act: BaseActivity,
+                                         msg: String,
+                                         positiveListener: DialogInterface.OnClickListener,
+                                         negativeListener: DialogInterface.OnClickListener) {
+            AlertDialog.Builder(act).apply {
+                setMessage(msg)
+                setPositiveButton(act.getString(R.string.all_yes), positiveListener)
+                setNegativeButton(act.getString(R.string.all_cancel), negativeListener)
+                create().show()
+            }
+        }
+
     }
 }

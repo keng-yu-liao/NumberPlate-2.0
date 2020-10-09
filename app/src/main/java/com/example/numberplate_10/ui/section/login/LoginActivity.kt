@@ -1,5 +1,6 @@
 package com.example.numberplate_10.ui.section.login
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -14,6 +15,7 @@ import com.example.numberplate_10.data.httpObj.LoginRq
 import com.example.numberplate_10.data.httpObj.LoginRsData
 import com.example.numberplate_10.ui.base.BaseActivity
 import com.example.numberplate_10.ui.section.choose.ChooseActivity
+import com.example.numberplate_10.utils.DialogUtil
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -31,6 +33,28 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun init() {
         login_btn.setOnClickListener(this)
+
+        //第一次開啟app顯示提示視窗
+        if (ApiConfig.API.APP_CONFIG.getFirstOpen()) {
+            DialogUtil.showDialogWithPosNegListener(this@LoginActivity, getString(R.string.dialog_first_open_hint),
+                    DialogInterface.OnClickListener { _, _ ->
+                        callSendEmail()
+                        ApiConfig.API.APP_CONFIG.setFirstOpen()
+                    },
+                    DialogInterface.OnClickListener { _, _ -> }
+                    )
+        }
+    }
+
+    private fun callSendEmail() {
+        val emailIntent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(ApiConfig.API.MY_EMAIL))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.dialog_email_subject_default))
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.dialog_email_content_default))
+            type = "plain/text"
+        }
+
+        startActivity(emailIntent)
     }
 
     override fun onClick(view: View?) {

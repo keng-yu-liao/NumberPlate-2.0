@@ -6,6 +6,6 @@ import java.io.IOException
 
 class NoInternetException() : IOException() {
     override val message: String
-        get() = MyApplication.mContext.getString(R.string.error_no_internet)
+        get() = MyApplication.mContext.getString(R.string.dialog_error_no_internet)
 
 }

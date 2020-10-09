@@ -6,6 +6,7 @@
     <string name="all_loading">讀取中，請稍後</string>
     <string name="all_close_app">確定要離開免排隊APP ?</string>
     <string name="all_yes">OK</string>
+    <string name="all_cancel">取消</string>
 
     //登入頁
     <string name="login">登入</string>
@@ -38,8 +39,11 @@
 
     //警告字串
     <string name="dialog_error_title">錯誤訊息</string>
-    <string name="error_no_internet">網路狀況問題，請確認網路連線</string>
-
+    <string name="dialog_error_no_internet">網路狀況問題，請確認網路連線</string>
+    <string name="dialog_first_open_hint">您好，感謝使用此App，如果尚未註冊帳號，請按OK並傳送\n欲申請帳號\n欲申請密碼\n至本工作室信箱，如果已經有註冊帳號則可忽略此訊息，感謝。</string>
+    <string name="dialog_email_subject_default">免排隊APP帳號申請</string>
+    <string name="dialog_email_content_default">免排隊APP帳號申請\n\n帳號:\n密碼:</string>
+    
     //輸入條件
     <string name="login_condition">0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM</string>
 
