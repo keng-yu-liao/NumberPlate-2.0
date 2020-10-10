@@ -11,6 +11,7 @@ import com.example.numberplate_10.common.TransDataCode.ACCOUNT_NAME
 import com.example.numberplate_10.common.TransDataCode.STORE_NAME
 import com.example.numberplate_10.core.connection.ConnectionListener
 import com.example.numberplate_10.core.connection.ConnectionManager
+import com.example.numberplate_10.core.sharedPreferences.SharedPreferenceProcess
 import com.example.numberplate_10.data.httpObj.LoginRq
 import com.example.numberplate_10.data.httpObj.LoginRsData
 import com.example.numberplate_10.ui.base.BaseActivity
@@ -35,14 +36,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         login_btn.setOnClickListener(this)
 
         //第一次開啟app顯示提示視窗
-        if (ApiConfig.API.APP_CONFIG.getFirstOpen()) {
+        if (SharedPreferenceProcess.getFirstOpenApp()) {
             DialogUtil.showDialogWithPosNegListener(this@LoginActivity, getString(R.string.dialog_first_open_hint),
                     DialogInterface.OnClickListener { _, _ ->
                         callSendEmail()
-                        ApiConfig.API.APP_CONFIG.setFirstOpen()
+                        SharedPreferenceProcess.setFirstOpenApp()
                     },
-                    DialogInterface.OnClickListener { _, _ -> }
-                    )
+                    DialogInterface.OnClickListener { _, _ ->
+                        SharedPreferenceProcess.setFirstOpenApp()
+                    }
+            )
         }
     }
 
