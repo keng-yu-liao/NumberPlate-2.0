@@ -104,28 +104,31 @@ class RemoteCallActivity : BaseActivity(), RemoteCallAdapter.OnItemListener {
             if (i < round) {
                 processNumList.add("${waitNumArray[i*5]}*${waitNumArray[i*5+1]}*${waitNumArray[i*5+2]}*${waitNumArray[i*5+3]}*${waitNumArray[i*5+4]}")
 
-                // 剩下的排數，未滿
             } else {
-                var lastWaitNumLine: String = ""
+                // 剩下的排數，未滿
+                var lastWaitNumLine = ""
 
-                for (k in 0 until roundRest) {
-                    lastWaitNumLine = if (k == 0) {
-                        waitNumArray[round*5 + k]
+                //餘數不為0，代表有缺數，餘數為0，代表剛好滿排
+                if (roundRest != 0) {
+                    for (k in 0 until roundRest) {
+                        lastWaitNumLine = if (k == 0) {
+                            waitNumArray[round * 5 + k]
 
-                    } else {
-                        "$lastWaitNumLine*${waitNumArray[round*5 + k]}"
+                        } else {
+                            "$lastWaitNumLine*${waitNumArray[round * 5 + k]}"
+
+                        }
 
                     }
 
+                    //有缺補零
+                    for (j in 0 until (5 - roundRest)) {
+                        lastWaitNumLine = "$lastWaitNumLine*0"
+
+                    }
+
+                    processNumList.add(lastWaitNumLine)
                 }
-
-                //有缺補零
-                for (j in 0 until (5 - roundRest)) {
-                    lastWaitNumLine = "$lastWaitNumLine*0"
-
-                }
-
-                processNumList.add(lastWaitNumLine)
             }
         }
 
