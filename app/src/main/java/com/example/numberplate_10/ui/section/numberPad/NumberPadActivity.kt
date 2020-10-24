@@ -1,9 +1,9 @@
 package com.example.numberplate_10.ui.section.numberPad
 
 import android.os.Bundle
+import com.example.numberplate_10.BuildConfig
 import com.example.numberplate_10.R
 import com.example.numberplate_10.common.ApiConfig
-import com.example.numberplate_10.common.ApiConfig.API.BASE_WEB_URL
 import com.example.numberplate_10.common.TransDataCode.STORE_NAME
 import com.example.numberplate_10.core.connection.ConnectionListener
 import com.example.numberplate_10.core.connection.ConnectionManager
@@ -60,7 +60,7 @@ class NumberPadActivity : BaseActivity() {
         }
         tv_number_pad_current_num.text = getString(R.string.number_pad_hint).replace("*", yourNum)
 
-        val qrContent = BASE_WEB_URL.replace("*YOUR_NUM", yourNum).replace("*STORE_TABLE_NAME", ApiConfig.API.APP_CONFIG.getStoreTable())
+        val qrContent = BuildConfig.BASE_WEB_URL.replace("*YOUR_NUM", yourNum).replace("*STORE_TABLE_NAME", ApiConfig.API.APP_CONFIG.getStoreTable())
         val qrBitmap = QRcodeUtil.createQRcode(qrContent, img_number_qr_code.width, img_number_qr_code.height)
         img_number_qr_code.setImageBitmap(qrBitmap)
 

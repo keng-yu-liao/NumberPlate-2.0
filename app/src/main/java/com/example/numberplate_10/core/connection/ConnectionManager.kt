@@ -1,6 +1,7 @@
 package com.example.numberplate_10.core.connection
 
 import android.content.Context
+import com.example.numberplate_10.BuildConfig
 import com.example.numberplate_10.R
 import com.example.numberplate_10.common.ApiConfig
 import com.example.numberplate_10.common.ConnectionCode.STATUS_REMOTE_CALLED
@@ -36,7 +37,7 @@ class ConnectionManager {
             return Retrofit.Builder()
                     .client(createOkHttpClient())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(ApiConfig.API.BASE_API_URL)
+                    .baseUrl(BuildConfig.BASE_API_URL)
                     .build().create(ApiService::class.java)
         }
 
@@ -141,9 +142,9 @@ class ConnectionManager {
                         if (STATUS_SUCCESS == (this.status)) {
                             if (STATUS_REMOTE_CALLED == this.data) {
                                 connectionListener.onSuccess("")
+                            } else {
+                                connectionListener.onFail(mContex.getString(R.string.choose_remote_first_hint))
                             }
-
-                            connectionListener.onFail(mContex.getString(R.string.choose_remote_first_hint))
 
                         } else {
                             connectionListener.onFail(this.status)
