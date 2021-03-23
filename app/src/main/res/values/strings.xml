@@ -44,7 +44,7 @@
     <string name="dialog_first_open_hint">您好，感謝使用此App，如果尚未註冊帳號，請按OK並傳送\n欲申請帳號\n欲申請密碼\n至本工作室信箱，如果已經有註冊帳號則可忽略此訊息，感謝。</string>
     <string name="dialog_email_subject_default">免排隊APP帳號申請</string>
     <string name="dialog_email_content_default">免排隊APP帳號申請\n\n帳號:\n密碼:</string>
-    
+
     //輸入條件
     <string name="login_condition">0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM</string>
 
