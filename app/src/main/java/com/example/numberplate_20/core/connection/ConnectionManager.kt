@@ -58,16 +58,16 @@ class ConnectionManager {
         }
 
         fun sendLogin(loginRq: LoginRq, connectionListener: ConnectionListener<LoginRsData>) {
-            getInstance().login(loginRq.accountName, loginRq.accountPassword).enqueue(object : Callback<LoginRs> {
+            getInstance().login(loginRq.accountName, loginRq.accountPassword).enqueue(object : Callback<Response> {
 
-                override fun onFailure(call: Call<LoginRs>, t: Throwable) {
+                override fun onFailure(call: Call<Response>, t: Throwable) {
                     t.message?.let {
                         connectionListener.onFail(it)
 
                     }
                 }
 
-                override fun onResponse(call: Call<LoginRs>, response: retrofit2.Response<LoginRs>) {
+                override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
                     response.body()?.run {
                         if (STATUS_SUCCESS == this.status) {
                             val loginRsData = Gson().fromJson<LoginRsData>(this.data, LoginRsData::class.java)
