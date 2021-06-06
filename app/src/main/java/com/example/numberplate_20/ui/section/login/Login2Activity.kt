@@ -22,7 +22,7 @@ class Login2Activity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initView() {
-        tv_login.setOnClickListener(this@Login2Activity)
+        tv_enter.setOnClickListener(this@Login2Activity)
     }
 
     private fun initViewModel() {
@@ -34,22 +34,13 @@ class Login2Activity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when(p0?.id) {
-            R.id.tv_login -> {
+            R.id.tv_enter -> {
                 when {
-                    edt_login_account.text.isEmpty() -> {
-                        LiaoDialog.getDialog(this@Login2Activity, getString(R.string.login_enter_account)).show()
+                    edt_account_name.text.isEmpty() -> {
+                        LiaoDialog.getDialog(this@Login2Activity, getString(R.string.login_enter_name)).show()
                     }
-                    edt_login_ps.text.isEmpty() -> {
-                        LiaoDialog.getDialog(this@Login2Activity, getString(R.string.login_enter_password)).show()
-                    }
+
                     else -> {
-                        loginViewModel.login(edt_login_account.text.toString(), edt_login_ps.text.toString()) { isLogin, msg ->
-                            if (isLogin) {
-                                LiaoDialog.getDialog(this@Login2Activity, getString(R.string.login_loging)).show()
-                            } else {
-                                LiaoDialog.getDialog(this@Login2Activity, getString(R.string.login_fail) + " " + msg).show()
-                            }
-                        }
                     }
                 }
             }
