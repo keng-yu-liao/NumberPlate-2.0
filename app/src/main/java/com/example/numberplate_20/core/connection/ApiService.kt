@@ -7,6 +7,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
+    @GET(ApiConfig.API.CREATE_FILE)
+    fun createFile(
+            @Query("fileName") fileName: String
+    ): Call<Response>
+
     @GET(ApiConfig.API.LOGIN)
     fun login(
         @Query("accountName") accountName: String,

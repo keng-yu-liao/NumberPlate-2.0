@@ -16,25 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.section.operation.OperationActivity"></activity>
+        <activity android:name=".ui.section.operation.OperationActivity" />
+
         <activity
             android:name=".ui.section.login.LoginActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ui.section.remoteCall.RemoteCallActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.section.choose.ChooseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.section.numberPad.NumberPadActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.section.login.Login2Activity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
