@@ -24,6 +24,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_35_horizon" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_uncall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -77,9 +78,9 @@
             android:id="@+id/tv_operation_display_pad_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="12dp"
             android:rotation="180"
-            tools:text="目前號碼"
+            android:text="@string/operation_current_num_title"
             android:textColor="@color/colorGray"
             android:textSize="@dimen/text_size_huge"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -90,8 +91,9 @@
             android:id="@+id/tv_operation_display_pad_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:rotation="180"
-            android:textSize="80sp"
+            android:textSize="70sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_operation_display_pad_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline_50_vertical"

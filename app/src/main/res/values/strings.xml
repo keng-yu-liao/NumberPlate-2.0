@@ -16,6 +16,9 @@
     <string name="login_loging">登入中..</string>
     <string name="login_fail">登入失敗</string>
 
+    //操作頁
+    <string name="operation_current_num_title">目前號碼</string>
+
     //選擇頁
     <string name="choose_remote_control">叫號器</string>
     <string name="choose_calling_pad">號碼顯示器</string>

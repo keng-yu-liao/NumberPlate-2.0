@@ -12,6 +12,7 @@ object ApiConfig {
 
         //API名稱
         const val CREATE_FILE: String = "createFile.php"
+        const val REQUEST_UNCALL_NUM: String = "requestUncallNum.php"
         const val LOGIN: String = "Login.php"
         const val INIT: String = "Init.php"
         const val GET_STARTING_STATUS: String = "GetStartingStatus.php"

@@ -19,8 +19,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_2)
 
-        initView()
         initViewModel()
+        initView()
     }
 
     private fun initView() {
@@ -40,9 +40,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 if (edt_account_name.text.isEmpty()) {
                     LiaoDialog.getDialog(this@LoginActivity, getString(R.string.login_enter_name)).show()
                 } else {
-                    loginViewModel.createFile(edt_account_name.text.toString()) { isSuccess, _ ->
+                    val fileNameStr = edt_account_name.text.toString() + ".txt"
+
+                    loginViewModel.createFile(fileNameStr) { isSuccess, data ->
                         if (isSuccess) {
-                            startActivity(Intent(this@LoginActivity, OperationActivity::class.java))
+                            val intent = Intent(this@LoginActivity, OperationActivity::class.java).apply {
+                                putExtra("FileName", fileNameStr)
+                            }
+                            startActivity(intent)
+                        } else {
+                            LiaoDialog.getDialog(this@LoginActivity, data).show()
                         }
                     }
                 }
