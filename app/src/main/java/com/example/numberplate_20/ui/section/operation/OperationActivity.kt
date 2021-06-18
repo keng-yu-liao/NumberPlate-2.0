@@ -5,6 +5,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.liaoutils.dialog.LiaoDialog
 import com.example.numberplate_20.R
 import com.example.numberplate_20.core.connection.ConnectionRepository
 import com.example.numberplate_20.manager.NumManager
@@ -12,10 +13,12 @@ import com.example.numberplate_20.mvvm.ViewModelFactory
 import com.example.numberplate_20.ui.base.BaseActivity
 import com.example.numberplate_20.utils.QRcodeUtil
 import kotlinx.android.synthetic.main.activity_operation.*
+import kotlinx.coroutines.Job
 
 //每3秒做一次更新
 class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListener {
     private lateinit var operationViewModel: OperationViewModel
+    private lateinit var updateJob: Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +27,11 @@ class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListe
         showLoading(getString(R.string.all_loading))
         initViewModel()
         initView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        updateJob.cancel()
     }
 
     override fun onNumClick(clickedNum: String) {
@@ -39,20 +47,22 @@ class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListe
 
         val fileName = intent.getStringExtra("FileName")
         fileName?.let { fileNameStr ->
-            operationViewModel.requestUncallNum(fileNameStr) { isSuccess, uncallNum ->
+            updateJob = operationViewModel.requestUncallNumRepeatedly(fileNameStr) { isSuccess, data ->
                 cancelLoading()
                 if (isSuccess) {
-                    if (uncallNum.isEmpty()) {
+                    if (data.isEmpty()) {
                         setUncallNum("1")
                         setUncallNumRcv(intArrayOf())
 
                     } else {
-                        val uncallArr = uncallNum.split("*").map {
+                        val uncallArr = data.split("*").map {
                             it.toInt()
                         }.toIntArray()
                         setUncallNum(NumManager.getLastNum(uncallArr))
                         setUncallNumRcv(uncallArr)
                     }
+                } else {
+                    LiaoDialog.getDialog(this@OperationActivity, data).show()
                 }
             }
         }
