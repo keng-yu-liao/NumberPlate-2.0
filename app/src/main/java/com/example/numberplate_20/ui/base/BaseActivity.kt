@@ -17,17 +17,8 @@ open class BaseActivity : AppCompatActivity() {
         DialogUtil.showDialogWithPosListener(
                 this,
                 getString(R.string.all_close_app),
-                object : DialogInterface.OnClickListener{
-                    override fun onClick(p0: DialogInterface?, p1: Int) {
-                        finishAffinity()
-                    }
-                }
+                DialogInterface.OnClickListener { _, _ -> finishAffinity() }
         )
-    }
-
-    protected fun showLoading() {
-        val view = LayoutInflater.from(this).inflate(R.layout.dialog_layout_progress, null)
-        progressAlertDialog = AlertDialog.Builder(this).setView(view).show()
     }
 
     protected fun showLoading(msg: String) {
@@ -35,7 +26,6 @@ open class BaseActivity : AppCompatActivity() {
         view.findViewById<TextView>(R.id.progress_dialog_title).text = msg
 
         progressAlertDialog = AlertDialog.Builder(this).setView(view).show()
-
     }
 
     protected fun cancelLoading() {

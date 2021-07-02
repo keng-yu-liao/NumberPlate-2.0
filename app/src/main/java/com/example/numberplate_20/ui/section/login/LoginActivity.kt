@@ -10,14 +10,14 @@ import com.example.numberplate_20.core.connection.ConnectionRepository
 import com.example.numberplate_20.mvvm.ViewModelFactory
 import com.example.numberplate_20.ui.base.BaseActivity
 import com.example.numberplate_20.ui.section.operation.OperationActivity
-import kotlinx.android.synthetic.main.activity_login_2.*
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login_2)
+        setContentView(R.layout.activity_login)
 
         initViewModel()
         initView()
