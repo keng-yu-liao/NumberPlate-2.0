@@ -2,7 +2,7 @@ package com.example.numberplate_20.manager
 
 object NumManager {
 
-    fun getLastNum(numArr: IntArray): String {
-        return (numArr.max()?.plus(1)).toString()
+    fun getLastNum(numList: MutableList<Int>): String {
+        return (numList.max()?.plus(1)).toString()
     }
 }

@@ -17,6 +17,12 @@ interface ApiService {
             @Query("fileName") fileName: String
     ): Call<Response>
 
+    @GET(ApiConfig.API.CALL_NUM)
+    fun callNum(
+            @Query("fileName") fileName: String,
+            @Query("callNum") callNum: String
+    ): Call<Response>
+
     @GET(ApiConfig.API.LOGIN)
     fun login(
         @Query("accountName") accountName: String,

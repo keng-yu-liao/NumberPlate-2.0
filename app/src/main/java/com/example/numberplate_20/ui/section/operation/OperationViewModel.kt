@@ -36,4 +36,24 @@ class OperationViewModel(private val mConnectionRepository: ConnectionRepository
             }
         }
     }
+
+    fun callNum(fileName: String, callNum: String, callback: (Boolean, String)->Unit) {
+        mConnectionRepository.apiService().callNum(fileName, callNum).enqueue(object : Callback<Response> {
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                callback.invoke(false, t.toString())
+            }
+
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { responseBody ->
+                        if (responseBody.status == ConnectionCode.STATUS_SUCCESS) {
+                            callback.invoke(true, callNum)
+                        }
+                    }
+                } else {
+                    callback.invoke(false, ConnectionCode.WarningCode.STATUS_CONNECT_FAIL)
+                }
+            }
+        })
+    }
 }
