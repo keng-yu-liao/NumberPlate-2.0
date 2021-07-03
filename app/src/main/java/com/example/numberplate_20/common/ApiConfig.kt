@@ -12,5 +12,6 @@ object ApiConfig {
         const val CREATE_FILE: String = "createFile.php"
         const val REQUEST_UNCALL_NUM: String = "requestUncallNum.php"
         const val CALL_NUM: String = "callNum.php"
+        const val DELETE_FILE: String = "deleteFile.php"
     }
 }

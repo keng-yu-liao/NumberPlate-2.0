@@ -33,6 +33,7 @@ class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListe
 
     override fun onDestroy() {
         super.onDestroy()
+        fileName?.let { operationViewModel.deleteFile(it) }
         updateJob.cancel()
     }
 

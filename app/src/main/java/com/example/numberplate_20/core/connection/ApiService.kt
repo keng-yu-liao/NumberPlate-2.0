@@ -22,4 +22,9 @@ interface ApiService {
             @Query("fileName") fileName: String,
             @Query("callNum") callNum: String
     ): Call<Response>
+
+    @GET(ApiConfig.API.DELETE_FILE)
+    fun deleteFile(
+            @Query("fileName") fileName: String
+    ): Call<Response>
 }

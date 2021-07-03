@@ -56,4 +56,11 @@ class OperationViewModel(private val mConnectionRepository: ConnectionRepository
             }
         })
     }
+
+    fun deleteFile(fileName: String) {
+        mConnectionRepository.apiService().deleteFile(fileName).enqueue(object : Callback<Response> {
+            override fun onFailure(call: Call<Response>, t: Throwable) {}
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {}
+        })
+    }
 }
