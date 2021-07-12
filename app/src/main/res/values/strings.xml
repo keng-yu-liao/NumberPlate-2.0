@@ -11,7 +11,8 @@
     //登入頁
     <string name="login_enter">進入</string>
     <string name="login_sign_up">註冊</string>
-    <string name="login_enter_name">請輸入用戶名稱</string>
+    <string name="login_enter_name">請輸入用戶名稱(限定英文)</string>
+    <string name="login_enter_name_only_eng">用戶名稱限定純英文</string>
     <string name="login_enter_password">請輸入密碼</string>
     <string name="login_loging">登入中..</string>
     <string name="login_fail">登入失敗</string>

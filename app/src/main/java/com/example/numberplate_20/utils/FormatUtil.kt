@@ -1,5 +1,7 @@
 package com.example.numberplate_20.utils
 
+import java.util.regex.Pattern
+
 class FormatUtil {
     companion object {
 
@@ -18,5 +20,10 @@ class FormatUtil {
             return string.toString()
         }
 
+        fun isOnlyEng(oriStr: String): Boolean {
+            val pattern = Pattern.compile("^[a-zA-Z]+$")
+            val matcher = pattern.matcher(oriStr)
+            return matcher.matches()
+        }
     }
 }
