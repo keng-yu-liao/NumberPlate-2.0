@@ -20,6 +20,7 @@
     //操作頁
     <string name="operation_current_num_title">目前號碼</string>
     <string name="operation_no_wait_num">尚無等待號碼</string>
+    <string name="operation_more_40">免費版最多到40號</string>
 
     //選擇頁
     <string name="choose_remote_control">叫號器</string>

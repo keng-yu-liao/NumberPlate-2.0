@@ -1,8 +1,7 @@
 package com.example.numberplate_20.ui.section.operation
 
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.liaoutils.dialog.LiaoDialog
@@ -48,6 +47,8 @@ class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListe
     }
 
     private fun initView() {
+        LiaoDialog.getDialog(this@OperationActivity, getString(R.string.operation_more_40)).show()
+
         rcv_uncall.apply {
             visibility = GONE
             layoutManager = GridLayoutManager(this@OperationActivity, 5, GridLayoutManager.VERTICAL, false)
@@ -62,13 +63,21 @@ class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListe
                     if (data.isEmpty()) {
                         setUncallNum(fileNameStr, "1")
                         setUncallNumRcv(mutableListOf())
-
                     } else {
                         val uncallNumList = data.split("*").map {
                             it.toInt()
                         }.toMutableList()
-                        setUncallNum(fileNameStr, NumManager.getLastNum(uncallNumList))
-                        setUncallNumRcv(uncallNumList)
+
+                        val lastNum = NumManager.getLastNum(uncallNumList)
+                        if (Integer.parseInt(lastNum) > 40
+                        ) {
+                            updateJob.cancel()
+                            setUncallNum(fileNameStr, "")
+                            LiaoDialog.getDialog(this@OperationActivity, getString(R.string.operation_more_40)).show()
+                        } else {
+                            setUncallNum(fileNameStr, NumManager.getLastNum(uncallNumList))
+                            setUncallNumRcv(uncallNumList)
+                        }
                     }
                 } else {
                     LiaoDialog.getDialog(this@OperationActivity, data).show()
@@ -96,13 +105,17 @@ class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListe
     }
 
     private fun setUncallNum(fileName: String, uncallNum: String) {
-        tv_operation_display_pad_num.text = uncallNum
+        if (uncallNum.isEmpty()) {
+            tv_operation_display_pad_num.text = "X"
+            img_operation_display_pad.visibility = INVISIBLE
+        } else {
+            tv_operation_display_pad_num.text = uncallNum
 
-        val qrCodeContent = BuildConfig.BASE_WEB_URL.apply {
-            replace("*FILE_NAME", fileName)
-            replace("*YOUR_NUM", uncallNum)
+            val qrCodeContent = BuildConfig.BASE_WEB_URL
+            qrCodeContent.replace("*FILE_NAME", fileName).replace("*YOUR_NUM", uncallNum)
+
+            val qrBitmap = QRcodeUtil.createQRcode(qrCodeContent, img_operation_display_pad.width, img_operation_display_pad.height)
+            img_operation_display_pad.setImageBitmap(qrBitmap)
         }
-        val qrBitmap = QRcodeUtil.createQRcode(qrCodeContent, img_operation_display_pad.width, img_operation_display_pad.height)
-        img_operation_display_pad.setImageBitmap(qrBitmap)
     }
 }
