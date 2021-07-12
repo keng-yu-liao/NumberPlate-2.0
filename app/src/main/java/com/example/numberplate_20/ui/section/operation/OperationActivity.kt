@@ -111,9 +111,7 @@ class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListe
         } else {
             tv_operation_display_pad_num.text = uncallNum
 
-            val qrCodeContent = BuildConfig.BASE_WEB_URL
-            qrCodeContent.replace("*FILE_NAME", fileName).replace("*YOUR_NUM", uncallNum)
-
+            val qrCodeContent = BuildConfig.BASE_WEB_URL.replace("*FILE_NAME", fileName).replace("*YOUR_NUM", uncallNum)
             val qrBitmap = QRcodeUtil.createQRcode(qrCodeContent, img_operation_display_pad.width, img_operation_display_pad.height)
             img_operation_display_pad.setImageBitmap(qrBitmap)
         }
