@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.section.operation.OperationActivity" />
+        <activity android:name=".ui.section.operation.OperationActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.section.login.LoginActivity"
