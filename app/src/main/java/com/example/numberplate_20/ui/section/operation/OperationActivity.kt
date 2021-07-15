@@ -8,7 +8,6 @@ import com.example.liaoutils.dialog.LiaoDialog
 import com.example.numberplate_20.BuildConfig
 import com.example.numberplate_20.R
 import com.example.numberplate_20.core.connection.ConnectionRepository
-import com.example.numberplate_20.manager.NumManager
 import com.example.numberplate_20.mvvm.ViewModelFactory
 import com.example.numberplate_20.ui.base.BaseActivity
 import com.example.numberplate_20.utils.QRcodeUtil
@@ -60,22 +59,24 @@ class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListe
             updateJob = operationViewModel.requestUncallNumRepeatedly(fileNameStr) { isSuccess, data ->
                 cancelLoading()
                 if (isSuccess) {
-                    if (data.isEmpty()) {
+                    val dataList = data.split("&".toRegex())
+
+                    // 起始時
+                    if (dataList[0] == "0") {
                         setUncallNum(fileNameStr, "1")
                         setUncallNumRcv(mutableListOf())
                     } else {
-                        val uncallNumList = data.split("*").map {
+                        val uncallNumList = dataList[0].split("*").map {
                             it.toInt()
                         }.toMutableList()
 
-                        val lastNum = NumManager.getLastNum(uncallNumList)
-                        if (Integer.parseInt(lastNum) > 40
-                        ) {
+                        // 等待號碼大於40，會結束更新排程
+                        if (Integer.parseInt(dataList[1]) > 40) {
                             updateJob.cancel()
                             setUncallNum(fileNameStr, "")
                             LiaoDialog.getDialog(this@OperationActivity, getString(R.string.operation_more_40)).show()
                         } else {
-                            setUncallNum(fileNameStr, NumManager.getLastNum(uncallNumList))
+                            setUncallNum(fileNameStr, (Integer.parseInt(dataList[1]) + 1).toString())
                             setUncallNumRcv(uncallNumList)
                         }
                     }
