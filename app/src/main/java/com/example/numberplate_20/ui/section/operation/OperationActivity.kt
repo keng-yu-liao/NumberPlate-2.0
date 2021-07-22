@@ -63,7 +63,11 @@ class OperationActivity : BaseActivity(), OperationAdapter.OperationAdapterListe
 
                     // 起始時
                     if (dataList[0] == "0") {
-                        setUncallNum(fileNameStr, "1")
+                        if (dataList[1] == "0") {
+                            setUncallNum(fileNameStr, "1")
+                        } else {
+                            setUncallNum(fileNameStr, (Integer.parseInt(dataList[1]) + 1).toString())
+                        }
                         setUncallNumRcv(mutableListOf())
                     } else {
                         val uncallNumList = dataList[0].split("*").map {
