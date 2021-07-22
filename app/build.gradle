@@ -15,16 +15,28 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        release {
+            storeFile file('../numberplate.jks')
+            keyAlias 'number-plate-10'
+            storePassword KEYSTORE_PASSWORD
+            keyPassword KEY_PASSWORD
+            v2SigningEnabled false
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            buildConfigField("String", "BASE_API_URL", "\"http://35.229.169.52/dev-20/function/\"")
-            buildConfigField("String", "BASE_WEB_URL", "\"http://35.229.169.52/dev/NumberPlate-1.0-Web/number_plate_10.html?storeTableName=*STORE_TABLE_NAME&yourNum=*YOUR_NUM\"")
+            buildConfigField("String", "BASE_API_URL", "\"http://35.206.216.134/api/\"")
+            buildConfigField("String", "BASE_WEB_URL", "\"http://35.206.216.134/web/number_plate_10.html?fileName=*FILE_NAME&yourNum=*YOUR_NUM\"")
         }
         release {
+            debuggable true
+            signingConfig signingConfigs.release
             applicationIdSuffix ".release"
-            buildConfigField("String", "BASE_API_URL", "\"http://35.229.169.52/release-10/NumberPlate-1.0-Server/app/\"")
-            buildConfigField("String", "BASE_WEB_URL", "\"http://35.229.169.52/release-10/NumberPlate-1.0-Web/number_plate_10.html?storeTableName=*STORE_TABLE_NAME&yourNum=*YOUR_NUM\"")
+            buildConfigField("String", "BASE_API_URL", "\"http://35.206.216.134/release-10/api/\"")
+            buildConfigField("String", "BASE_WEB_URL", "\"http://35.206.216.134/release-10/web/number_plate_10.html?fileName=*FILE_NAME&yourNum=*YOUR_NUM\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
