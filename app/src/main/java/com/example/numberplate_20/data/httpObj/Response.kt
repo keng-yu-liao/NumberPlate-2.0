@@ -1,6 +1,14 @@
 package com.example.numberplate_20.data.httpObj
 
-data class Response (
-    val status: String,
-    val data: String
-)
+sealed class Response {
+    data class DataResponse (
+            val statusCode: String,
+            val message: String,
+            val data: String
+    ) : Response()
+
+    data class NullDataResponse (
+            val statusCode: String,
+            val message: String
+    ) : Response()
+}

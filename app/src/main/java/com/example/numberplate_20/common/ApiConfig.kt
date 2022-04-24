@@ -9,6 +9,7 @@ object ApiConfig {
         const val TIMEOUT_WRITE = 5L
 
         //API名稱
+        const val LOGIN: String = "Login.php"
         const val CREATE_FILE: String = "createFile.php"
         const val REQUEST_UNCALL_NUM: String = "requestUncallNum.php"
         const val CALL_NUM: String = "callNum.php"

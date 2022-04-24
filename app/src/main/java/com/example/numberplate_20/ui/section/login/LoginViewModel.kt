@@ -1,33 +1,33 @@
 package com.example.numberplate_20.ui.section.login
 
 import androidx.lifecycle.ViewModel
-import com.example.numberplate_20.common.ConnectionCode
-import com.example.numberplate_20.common.ConnectionCode.STATUS_SUCCESS
 import com.example.numberplate_20.core.connection.ConnectionRepository
-import com.example.numberplate_20.data.httpObj.Response
-import retrofit2.Call
-import retrofit2.Callback
+import com.example.numberplate_20.extension.process
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 class LoginViewModel(private val mConnectionRepository: ConnectionRepository) : ViewModel() {
-    fun createFile(fileName: String, callback: (Boolean, String)->Unit) {
-        mConnectionRepository.apiService().createFile(fileName).enqueue(object : Callback<Response> {
-            override fun onFailure(call: Call<Response>, t: Throwable) {
-                callback.invoke(false, t.toString())
-            }
 
-            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { responseBody ->
-                        if (responseBody.status == STATUS_SUCCESS) {
-                            callback.invoke(true, responseBody.data)
-                        } else {
-                            callback.invoke(false, responseBody.data)
+    fun login(account: String, password: String) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                mConnectionRepository.apiService().login(
+                        account = account,
+                        password = password
+                ).execute().process(
+                        onSuccess = {
+                            // TODO  go to next page
+                        },
+                        onFail = {
+                            // TODO fail process
                         }
-                    }
-                } else {
-                    callback.invoke(false, ConnectionCode.WarningCode.STATUS_CONNECT_FAIL)
-                }
+                )
+            } catch (e: IOException) {
+                // TODO exception process
             }
-        })
+        }
     }
 }

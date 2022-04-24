@@ -52,18 +52,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_50_horizon">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/cl_login_guideline_50_horizon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.55" />
-
         <EditText
             android:id="@+id/edt_account_name"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/login_edt_bg"
             android:hint="@string/login_enter_name"
@@ -72,10 +66,26 @@
             android:paddingEnd="10dp"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/text_size_big"
-            app:layout_constraintBottom_toTopOf="@+id/cl_login_guideline_50_horizon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="Autofill" />
+
+        <EditText
+            android:id="@+id/edt_account_pw"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/login_edt_bg"
+            android:hint="@string/login_enter_password"
+            android:inputType="text"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_size_big"
+            app:layout_constraintEnd_toEndOf="@+id/edt_account_name"
+            app:layout_constraintStart_toStartOf="@+id/edt_account_name"
+            app:layout_constraintTop_toBottomOf="@+id/edt_account_name"
             tools:ignore="Autofill" />
 
         <TextView
@@ -90,7 +100,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edt_account_name" />
+            app:layout_constraintTop_toBottomOf="@+id/edt_account_pw" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

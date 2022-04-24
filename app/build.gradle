@@ -28,7 +28,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            buildConfigField("String", "BASE_API_URL", "\"http://35.206.216.134/api/\"")
+            buildConfigField("String", "BASE_API_URL", "\"http://35.206.216.134/dev-2.0/\"")
             buildConfigField("String", "BASE_WEB_URL", "\"http://35.206.216.134/web/number_plate_10.html?fileName=*FILE_NAME&yourNum=*YOUR_NUM\"")
         }
         release {

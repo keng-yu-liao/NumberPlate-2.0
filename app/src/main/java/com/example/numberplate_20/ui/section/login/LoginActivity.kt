@@ -1,6 +1,5 @@
 package com.example.numberplate_20.ui.section.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +8,6 @@ import com.example.numberplate_20.R
 import com.example.numberplate_20.core.connection.ConnectionRepository
 import com.example.numberplate_20.mvvm.ViewModelFactory
 import com.example.numberplate_20.ui.base.BaseActivity
-import com.example.numberplate_20.ui.section.operation.OperationActivity
 import com.example.numberplate_20.utils.FormatUtil
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -42,19 +40,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     LiaoDialog.getDialog(this@LoginActivity, getString(R.string.login_enter_name)).show()
                 } else if (!FormatUtil.isOnlyEng(edt_account_name.text.toString())) {
                     LiaoDialog.getDialog(this@LoginActivity, getString(R.string.login_enter_name_only_eng)).show()
+                } else if (edt_account_pw.text.isEmpty()) {
+                    LiaoDialog.getDialog(this@LoginActivity, getString(R.string.login_enter_password)).show()
                 } else {
-                    val fileNameStr = edt_account_name.text.toString() + ".txt"
-
-                    loginViewModel.createFile(fileNameStr) { isSuccess, data ->
-                        if (isSuccess) {
-                            val intent = Intent(this@LoginActivity, OperationActivity::class.java).apply {
-                                putExtra("FileName", fileNameStr)
-                            }
-                            startActivity(intent)
-                        } else {
-                            LiaoDialog.getDialog(this@LoginActivity, data).show()
-                        }
-                    }
+                    loginViewModel.login("test", "test")
                 }
             }
         }
