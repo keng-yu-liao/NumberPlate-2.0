@@ -13,11 +13,6 @@ interface ApiService {
             @Query("password") password: String
     ): Call<Response.NullDataResponse>
 
-    @GET(ApiConfig.API.CREATE_FILE)
-    fun createFile(
-            @Query("fileName") fileName: String
-    ): Call<Response>
-
     @GET(ApiConfig.API.REQUEST_UNCALL_NUM)
     fun requestUncallNum(
             @Query("fileName") fileName: String
