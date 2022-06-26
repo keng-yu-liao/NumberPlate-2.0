@@ -1,5 +1,6 @@
 package com.example.numberplate_20.ui.section.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -8,6 +9,7 @@ import com.example.numberplate_20.R
 import com.example.numberplate_20.core.connection.ConnectionRepository
 import com.example.numberplate_20.mvvm.ViewModelFactory
 import com.example.numberplate_20.ui.base.BaseActivity
+import com.example.numberplate_20.ui.section.operation.OperationActivity
 import com.example.numberplate_20.utils.FormatUtil
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -43,7 +45,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 } else if (edt_account_pw.text.isEmpty()) {
                     LiaoDialog.getDialog(this@LoginActivity, getString(R.string.login_enter_password)).show()
                 } else {
-                    loginViewModel.login("test", "test")
+                    loginViewModel.login(
+                            "test",
+                            "test",
+                            {
+                                val intent = Intent(this, OperationActivity::class.java)
+                                startActivity(intent)
+                            },
+                            {
+
+                            })
                 }
             }
         }

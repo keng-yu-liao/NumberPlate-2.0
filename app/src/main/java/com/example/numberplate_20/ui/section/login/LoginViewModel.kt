@@ -11,7 +11,7 @@ import java.io.IOException
 
 class LoginViewModel(private val mConnectionRepository: ConnectionRepository) : ViewModel() {
 
-    fun login(account: String, password: String) {
+    fun login(account: String, password: String, onSuccess: ()->Unit, onFail: (String)->Unit) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 mConnectionRepository.apiService().login(
@@ -19,14 +19,14 @@ class LoginViewModel(private val mConnectionRepository: ConnectionRepository) : 
                         password = password
                 ).execute().process(
                         onSuccess = {
-                            // TODO  go to next page
+                            onSuccess.invoke()
                         },
                         onFail = {
-                            // TODO fail process
+                            onFail.invoke(it)
                         }
                 )
             } catch (e: IOException) {
-                // TODO exception process
+                e.message?.let { onFail.invoke(it) }
             }
         }
     }
