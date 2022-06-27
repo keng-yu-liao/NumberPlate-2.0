@@ -7,6 +7,7 @@ object ApiConfig {
         const val TIMEOUT_CONNECT = 5L
         const val TIMEOUT_READ = 5L
         const val TIMEOUT_WRITE = 5L
+        const val WS_URL = "ws://35.206.216.134:1500"
 
         //API名稱
         const val LOGIN: String = "Login.php"
