@@ -46,14 +46,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     LiaoDialog.getDialog(this@LoginActivity, getString(R.string.login_enter_password)).show()
                 } else {
                     loginViewModel.login(
-                            "test",
-                            "test",
+                            edt_account_name.text.toString(),
+                            edt_account_pw.text.toString(),
                             {
                                 val intent = Intent(this, OperationActivity::class.java)
                                 startActivity(intent)
                             },
                             {
-
+                                LiaoDialog.getDialog(this@LoginActivity, it).show()
                             })
                 }
             }

@@ -3,10 +3,8 @@ package com.example.numberplate_20.ui.section.login
 import androidx.lifecycle.ViewModel
 import com.example.numberplate_20.core.connection.ConnectionRepository
 import com.example.numberplate_20.extension.process
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
 import java.io.IOException
 
 class LoginViewModel(private val mConnectionRepository: ConnectionRepository) : ViewModel() {
@@ -19,14 +17,20 @@ class LoginViewModel(private val mConnectionRepository: ConnectionRepository) : 
                         password = password
                 ).execute().process(
                         onSuccess = {
-                            onSuccess.invoke()
+                            launch(Dispatchers.Main) {
+                                onSuccess.invoke()
+                            }
                         },
                         onFail = {
-                            onFail.invoke(it)
+                            launch(Dispatchers.Main) {
+                                onFail.invoke(it)
+                            }
                         }
                 )
             } catch (e: IOException) {
-                e.message?.let { onFail.invoke(it) }
+                launch(Dispatchers.Main) {
+                    e.message?.let { onFail.invoke(it) }
+                }
             }
         }
     }
