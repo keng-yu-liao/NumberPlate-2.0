@@ -10,7 +10,7 @@ object ApiConfig {
         const val WS_URL = "ws://35.206.216.134:1500"
 
         //API名稱
-        const val LOGIN: String = "Login.php"
+        const val LOGIN: String = "login.php"
         const val CREATE_FILE: String = "createFile.php"
         const val REQUEST_UNCALL_NUM: String = "requestUncallNum.php"
         const val CALL_NUM: String = "callNum.php"

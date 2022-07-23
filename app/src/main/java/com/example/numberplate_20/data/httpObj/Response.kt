@@ -1,6 +1,6 @@
 package com.example.numberplate_20.data.httpObj
 
-sealed class  Response {
+sealed class Response {
     data class DataResponse (
             val statusCode: String,
             val message: String,
