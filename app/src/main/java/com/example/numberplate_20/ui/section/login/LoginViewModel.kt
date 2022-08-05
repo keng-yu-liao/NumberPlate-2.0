@@ -34,4 +34,31 @@ class LoginViewModel(private val mConnectionRepository: ConnectionRepository) : 
             }
         }
     }
+
+    fun createFile(fileName: String, onSuccess: () -> Unit, onFail: (String) -> Unit) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                mConnectionRepository.apiService().createFile(
+                        fileName = fileName
+                ).execute().process(
+                        onSuccess = {
+                            launch(Dispatchers.Main) {
+                                onSuccess.invoke()
+                            }
+                        },
+                        onFail = {
+                            launch(Dispatchers.Main) {
+                                onFail.invoke(it)
+                            }
+                        }
+                )
+            } catch (e: IOException) {
+                launch(Dispatchers.Main) {
+                    e.message?.let {
+                        onFail.invoke(it)
+                    }
+                }
+            }
+        }
+    }
 }

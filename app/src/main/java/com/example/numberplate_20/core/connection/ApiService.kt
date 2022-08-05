@@ -24,6 +24,11 @@ interface ApiService {
             @Query("callNum") callNum: String
     ): Call<Response>
 
+    @GET(ApiConfig.API.CREATE_FILE)
+    fun createFile(
+            @Query("fileName") fileName: String
+    ): Call<Response.NullDataResponse>
+
     @GET(ApiConfig.API.DELETE_FILE)
     fun deleteFile(
             @Query("fileName") fileName: String

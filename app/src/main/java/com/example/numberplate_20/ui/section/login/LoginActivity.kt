@@ -49,8 +49,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             edt_account_name.text.toString(),
                             edt_account_pw.text.toString(),
                             {
-                                val intent = Intent(this, OperationActivity::class.java)
-                                startActivity(intent)
+                                loginViewModel.createFile(
+                                        fileName = edt_account_name.text.toString(),
+                                        onSuccess = {
+                                            val intent = Intent(this, OperationActivity::class.java)
+                                            startActivity(intent)
+                                        },
+                                        onFail = {
+                                            LiaoDialog.getDialog(this@LoginActivity, it).show()
+                                        }
+                                )
                             },
                             {
                                 LiaoDialog.getDialog(this@LoginActivity, it).show()
