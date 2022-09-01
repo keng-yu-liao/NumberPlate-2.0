@@ -53,6 +53,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                         fileName = edt_account_name.text.toString(),
                                         onSuccess = {
                                             val intent = Intent(this, OperationActivity::class.java)
+                                            intent.putExtra("fileName", edt_account_name.text.toString())
                                             startActivity(intent)
                                         },
                                         onFail = {
